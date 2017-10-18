@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
 /************** 定义模型Model **************/
 const Models = {
   Login: mongoose.model('Login', loginSchema),
-  User: mongoose.model('user', userSchema)
+  User: mongoose.model('User', userSchema)
 };
 
 module.exports = Models;

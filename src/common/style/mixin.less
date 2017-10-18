@@ -1,0 +1,25 @@
+/*基本尺寸*/
+@topHeight: 30px;
+
+/*字体大小*/
+@smallFontSize: 14px;
+@fontSize: 16px;
+
+/*字体颜色*/
+@snowColor: #FFFAFA;
+
+/*基本颜色*/
+@backgroundTop: rgba(0, 0, 0, .5);
+
+/*共同样式*/
+.clear {
+  zoom: 1;
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+}

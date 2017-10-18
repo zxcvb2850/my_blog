@@ -24,9 +24,9 @@ router.post('/api/login/createAccount', (req, res) => {
   });
 })
 // 获取已有账号接口
-router.get('/api/login/getAccount',(req,res) => {
+router.get('/api/login/getAccount', (req, res) => {
   // 通过模型去查找数据库
-  models.Login.find((err,data) => {
+  models.Login.find((err, data) => {
     if (err) {
       res.send(err);
     } else {
@@ -34,5 +34,33 @@ router.get('/api/login/getAccount',(req,res) => {
     }
   });
 });
+// 获取user
+router.get('/api/user', (req, res) => {
+  // 通过模型去查找数据库
+  models.User.find((err, data) => {
+    if (err) {
+      res.send(err)
+    }
+    if (data) {
+      res.send(data)
+    }
+  })
+});
+//创建账号接口
+router.post('/api/user', (req, res) => {
+  console.log(req.body)
+  let newUser = new models.User({
+    user: req.body.name,
+    age: req.body.age
+  })
+  //保存数据newAccount数据进mongoDB
+  newUser.save((err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send('createAccount successes');
+    }
+  });
+})
 
 module.exports = router;
