@@ -1,10 +1,14 @@
 <template>
   <header>
     <div class="wrapper">
-      <div class="head-top">
-        <p class="welcome">欢迎来到王小白的博客</p>
-        <p class="icon">11</p>
-      </div>
+      <div class="logo"><img src="../../assets/logo.png" alt=""></div>
+      <nav class="nav">
+        <li class="nav-item"><a href="">首页</a></li>
+        <li class="nav-item"><a href="">前端</a></li>
+        <li class="nav-item"><a href="">cocos2dx-lua</a></li>
+        <li class="nav-item"><a href="">留言板</a></li>
+      </nav>
+      <div class="search">search</div>
     </div>
   </header>
 </template>
@@ -18,31 +22,41 @@
 
   header {
     margin: 0;
-    padding: 0;
-    height: @topHeight;
-    background-color: @backgroundTop;
+    padding: 0 0 6px 0;
+    background: #ffffff;
+    .border-1px(@borderColor);
     .wrapper {
+      display: flex;
       margin: 0 auto;
-      max-width: 1000px;
-      .head-top {
-        color: @snowColor;
-        height: @topHeight;
-        line-height: @topHeight;
-        .clear;
-        .welcome, .icon {
-          margin: 0;
-          padding: 0;
-          font-size: @smallFontSize;
-        }
-        .welcome {
-          float: left;
-          height: @topHeight;
-          line-height: @topHeight;
-        }
-        .icon {
-          float: right;
+      width: 1000px;
+      height: @topHeight;
+      .logo {
+        flex: 100px 0 0;
+        img {
+          width: 100%;
+          height: 100%;
         }
       }
+      .nav {
+        flex: 1;
+        padding: 0 20px;
+        text-align: left;
+        font-size: 0;
+        .nav-item {
+          list-style-type: none;
+          display: inline-block;
+          margin: 0 20px;
+          height: @topHeight;
+          line-height: @topHeight;
+          font-size: @fontSize;
+        }
+      }
+      .search {
+        flex: 0 0 50px;
+        height: @topHeight;
+        line-height: @topHeight;
+      }
     }
+
   }
 </style>

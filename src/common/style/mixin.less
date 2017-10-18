@@ -1,5 +1,5 @@
 /*基本尺寸*/
-@topHeight: 30px;
+@topHeight: 60px;
 
 /*字体大小*/
 @smallFontSize: 14px;
@@ -10,6 +10,7 @@
 
 /*基本颜色*/
 @backgroundTop: rgba(0, 0, 0, .5);
+@borderColor: rgba(0, 0, 0, .1);
 
 /*共同样式*/
 .clear {
@@ -21,5 +22,19 @@
     height: 0;
     overflow: hidden;
     visibility: hidden;
+  }
+}
+
+/*底部1像素的边框*/
+.border-1px(@color) {
+  position: relative;
+  &:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    content: '';
+    width: 100%;
+    border-top: 1px solid @color;
   }
 }
