@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <v-header></v-header>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -21,9 +24,13 @@
     padding: 0;
     background-color: #f6f6f6;
   }
+  a{
+    text-decoration: none;
+    color: #2c3e50;
+  }
 
   #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: '微软雅黑', 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;

@@ -1,9 +1,14 @@
 /*基本尺寸*/
+@pageWidth: 1200px;
+
 @topHeight: 60px;
+@textHeight: 30px;
+@titleHeight: 40px;
 
 /*字体大小*/
 @smallFontSize: 14px;
 @fontSize: 16px;
+@titleFontSize: 18px;
 
 /*字体颜色*/
 @snowColor: #FFFAFA;
@@ -11,6 +16,8 @@
 /*基本颜色*/
 @backgroundTop: rgba(0, 0, 0, .5);
 @borderColor: rgba(0, 0, 0, .1);
+@labelBackground: #FF4500;
+@labelHoverBackground: #FF5E5C;
 
 /*共同样式*/
 .clear {
@@ -37,4 +44,27 @@
     width: 100%;
     border-top: 1px solid @color;
   }
+}
+
+/*padding内部*/
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*css3动画时间*/
+.transition(@type, @timer) {
+  -webkit-transition: @type @timer;
+  -moz-transition: @type @timer;
+  -ms-transition: @type @timer;
+  -o-transition: @type @timer;
+  transition: @type @timer;
+}
+
+/*超出隐藏*/
+.no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

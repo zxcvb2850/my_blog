@@ -2,13 +2,20 @@
   <header>
     <div class="wrapper">
       <div class="logo"><img src="../../assets/logo.png" alt=""></div>
-      <nav class="nav">
+      <!--<nav class="nav">
         <li class="nav-item"><a href="">首页</a></li>
         <li class="nav-item"><a href="">前端</a></li>
         <li class="nav-item"><a href="">cocos2dx-lua</a></li>
         <li class="nav-item"><a href="">留言板</a></li>
+      </nav>-->
+      <nav class="nav">
+        <router-link class="nav-item" to="/index" tag="li"><a href="">首页</a></router-link>
+        <router-link class="nav-item" to="/web" tag="li"><a href="">前端</a></router-link>
+        <router-link class="nav-item" to="/message" tag="li"><a href="">留言板</a></router-link>
       </nav>
-      <div class="search">search</div>
+      <div class="search">
+        <router-link to="/search">search</router-link>
+      </div>
     </div>
   </header>
 </template>
@@ -28,7 +35,7 @@
     .wrapper {
       display: flex;
       margin: 0 auto;
-      width: 1000px;
+      width: @pageWidth;
       height: @topHeight;
       .logo {
         flex: 100px 0 0;
