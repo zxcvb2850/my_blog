@@ -2,12 +2,6 @@
   <header>
     <div class="wrapper">
       <div class="logo"><img src="../../assets/logo.png" alt=""></div>
-      <!--<nav class="nav">
-        <li class="nav-item"><a href="">首页</a></li>
-        <li class="nav-item"><a href="">前端</a></li>
-        <li class="nav-item"><a href="">cocos2dx-lua</a></li>
-        <li class="nav-item"><a href="">留言板</a></li>
-      </nav>-->
       <nav class="nav">
         <router-link class="nav-item" to="/index" tag="li"><a href="">首页</a></router-link>
         <router-link class="nav-item" to="/web" tag="li"><a href="">前端</a></router-link>
@@ -35,7 +29,7 @@
     .wrapper {
       display: flex;
       margin: 0 auto;
-      width: @pageWidth;
+      width: 80%;
       height: @topHeight;
       .logo {
         flex: 100px 0 0;
@@ -64,6 +58,5 @@
         line-height: @topHeight;
       }
     }
-
   }
 </style>

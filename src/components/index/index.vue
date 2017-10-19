@@ -22,7 +22,7 @@
               <a href="javascript;" class="read">阅读次数：2 &nbsp;&nbsp;&nbsp;</a>
               <a href="javascript;" class="leaving">留言（10）</a>
               <ol>
-                <li class="label-item"><a href="javascript;">web前端</a></li>
+                <li class="label-item"><a href="javascript:;">web前端</a></li>
               </ol>
             </div>
           </li>
@@ -37,7 +37,7 @@
               <a href="javascript;" class="read">阅读次数：2 &nbsp;&nbsp;&nbsp;</a>
               <a href="javascript;" class="leaving">留言（10）</a>
               <ol>
-                <li class="label-item"><a href="javascript;">web前端</a></li>
+                <li class="label-item"><a href="javascript:;">web前端</a></li>
               </ol>
             </div>
           </li>
@@ -52,7 +52,7 @@
               <a href="javascript;" class="read">阅读次数：2 &nbsp;&nbsp;&nbsp;</a>
               <a href="javascript;" class="leaving">留言（10）</a>
               <ol>
-                <li class="label-item"><a href="javascript;">web前端</a></li>
+                <li class="label-item"><a href="javascript:;">web前端</a></li>
               </ol>
             </div>
           </li>
@@ -61,7 +61,7 @@
       <div class="rec-right">
         <div class="new-comment">
           <h4 class="new-title">最新评论</h4>
-          <ul>
+          <ul class="comment">
             <li class="comment-item">
               <a class="content" href="javascript:;">计开发5～15屏页面，兼容手机计开发5～15屏页面，兼容手机</a>
               <div class="info">
@@ -69,19 +69,22 @@
                 <span class="username">提供者</span>
               </div>
             </li>
-            <li class="comment-item">
-              <a class="content" href="javascript:;">计开发5～15屏页面，兼容手机计开发5～15屏页面，兼容手机</a>
-              <div class="info">
-                <img class="avatar" src="../../assets/logo.png" alt="">
-                <span class="username">提供者</span>
-              </div>
+          </ul>
+        </div>
+        <div class="new-label">
+          <h4 class="new-title">热门标签</h4>
+          <ul class="label">
+            <li class="label-item">
+              <a class="text" href="javascript:;">web前端</a>
             </li>
-            <li class="comment-item">
-              <a class="content" href="javascript:;">计开发5～15屏页面，兼容手机计开发5～15屏页面，兼容手机</a>
-              <div class="info">
-                <img class="avatar" src="../../assets/logo.png" alt="">
-                <span class="username">提供者</span>
-              </div>
+            <li class="label-item">
+              <a class="text" href="javascript:;">javascript</a>
+            </li>
+            <li class="label-item">
+              <a class="text" href="javascript:;">node</a>
+            </li>
+            <li class="label-item">
+              <a class="text hot" href="javascript:;">vue</a>
             </li>
           </ul>
         </div>
@@ -94,7 +97,7 @@
   import Slider from "base/slider/slider"
 
   export default {
-    data(){
+    data() {
       return {
         banner: [
           {
@@ -134,10 +137,14 @@
     }
     .new-left {
       padding: 0 10px;
+      .transition(all, 0.35s);
       .border-box;
       .art-title {
         flex: 1;
         font-size: @titleFontSize;
+      }
+      .list {
+        padding: 0 30px;
       }
       .list-item {
         list-style-type: none;
@@ -254,6 +261,43 @@
           }
         }
       }
+      .label {
+        margin-top: 20px;
+      }
+      .label-item {
+        display: inline-block;
+        margin: 4px 0px;
+        font-size: 0;
+        .text {
+          display: block;
+          padding: 6px 10px;
+          border: 1px solid #888;
+          font-size: @smallFontSize;
+          color: #888;
+          &.hot {
+            border: 1px solid @hotColor;
+            color: @hotColor;
+          }
+        }
+        &:hover {
+          .text {
+            background-color: #282828;
+            color: @snowColor;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 992px) {
+    .new-left {
+      .art-title {
+        text-align: center;
+      }
+    }
+
+    .rec-right {
+      display: none;
     }
   }
 </style>

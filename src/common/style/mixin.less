@@ -7,17 +7,20 @@
 
 /*字体大小*/
 @smallFontSize: 14px;
+@maxFontSize: 20px;
 @fontSize: 16px;
 @titleFontSize: 18px;
 
 /*字体颜色*/
 @snowColor: #FFFAFA;
+@hotColor: #FD6161;
 
 /*基本颜色*/
 @backgroundTop: rgba(0, 0, 0, .5);
 @borderColor: rgba(0, 0, 0, .1);
 @labelBackground: #FF4500;
 @labelHoverBackground: #FF5E5C;
+@footerBackground: #2E2730;
 
 /*共同样式*/
 .clear {
@@ -44,6 +47,12 @@
     width: 100%;
     border-top: 1px solid @color;
   }
+}
+
+.border-radius(@val) {
+  -webkit-border-radius: @val;
+  -moz-border-radius: @val;
+  border-radius: @val;
 }
 
 /*padding内部*/
