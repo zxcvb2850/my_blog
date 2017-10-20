@@ -44,6 +44,7 @@
         color: #000;
         font-size: @maxFontSize;
         background-color: @snowColor;
+        cursor: pointer;
         .border-radius(50%);
         .transition(all, 0.35s);
         &:nth-child(odd) {

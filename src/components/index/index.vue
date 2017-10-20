@@ -11,48 +11,17 @@
       <div class="new-left">
         <h1 class="art-title">最新发布</h1>
         <ul class="list">
-          <li class="list-item">
-            <a class="title" href="#"><h3>HTML5-CSS3</h3></a>
-            <div class="img"><img src="../../assets/2.jpg" alt=""></div>
-            <p class="desc">
-              “移动端H5页面设计”赛项共分作品提交、现场答辩两个阶段，比赛要求学生利用HTML5-CSS3技术进行开发，需要选手设计开发5～15屏页面，兼容手机竖屏浏览，作品可在iOS和Android操作系统移动终端设备上运行。
-
-              谈到参加这次比赛...</p>
+          <li class="list-item" v-for="article in articles">
+            <a class="title" href="#"><h3>{{article.title}}</h3></a>
+            <div class="img"><img :src="article.img" alt=""></div>
+            <p class="desc">{{article.desc}}...</p>
             <div class="label">
-              <a href="javascript;" class="read">阅读次数：2 &nbsp;&nbsp;&nbsp;</a>
-              <a href="javascript;" class="leaving">留言（10）</a>
+              <a href="javascript:;" class="read">阅读次数：{{article.read}}&nbsp;&nbsp;&nbsp;</a>
+              <a href="javascript:;" class="leaving">留言（{{article.leaving}}）</a>
               <ol>
-                <li class="label-item"><a href="javascript:;">web前端</a></li>
-              </ol>
-            </div>
-          </li>
-          <li class="list-item">
-            <a class="title" href="#"><h3>HTML5-CSS3</h3></a>
-            <div class="img"><img src="../../assets/4.jpg" alt=""></div>
-            <p class="desc">
-              “移动端H5页面设计”赛项共分作品提交、现场答辩两个阶段，比赛要求学生利用HTML5-CSS3技术进行开发，需要选手设计开发5～15屏页面，兼容手机竖屏浏览，作品可在iOS和Android操作系统移动终端设备上运行。
-
-              谈到参加这次比赛...</p>
-            <div class="label">
-              <a href="javascript;" class="read">阅读次数：2 &nbsp;&nbsp;&nbsp;</a>
-              <a href="javascript;" class="leaving">留言（10）</a>
-              <ol>
-                <li class="label-item"><a href="javascript:;">web前端</a></li>
-              </ol>
-            </div>
-          </li>
-          <li class="list-item">
-            <a class="title" href="#"><h3>HTML5-CSS3</h3></a>
-            <div class="img"><img src="../../assets/3.jpg" alt=""></div>
-            <p class="desc">
-              “移动端H5页面设计”赛项共分作品提交、现场答辩两个阶段，比赛要求学生利用HTML5-CSS3技术进行开发，需要选手设计开发5～15屏页面，兼容手机竖屏浏览，作品可在iOS和Android操作系统移动终端设备上运行。
-
-              谈到参加这次比赛...</p>
-            <div class="label">
-              <a href="javascript;" class="read">阅读次数：2 &nbsp;&nbsp;&nbsp;</a>
-              <a href="javascript;" class="leaving">留言（10）</a>
-              <ol>
-                <li class="label-item"><a href="javascript:;">web前端</a></li>
+                <li class="label-item" v-for="label in article.label">
+                  <a href="javascript:;">{{label}}</a>
+                </li>
               </ol>
             </div>
           </li>
@@ -95,21 +64,36 @@
 
 <script>
   import Slider from "base/slider/slider"
+  import axios from "axios"
 
   export default {
     data() {
       return {
-        banner: [
-          {
-            imgScr: require("../../assets/2.jpg")
-          },
-          {
-            imgScr: require("../../assets/3.jpg")
-          },
-          {
-            imgScr: require("../../assets/4.jpg")
-          }
-        ]
+        banner: [],
+        articles: []
+      }
+    },
+    mounted(){
+      this._getBanner();
+      this._getArticles();
+    },
+    methods: {
+      _getBanner(){
+        axios.get("/api/banner/get").then((res) => {
+          console.log(res)
+        }).catch((err) => {
+          console.log("获取banner报错啦");
+          console.log(err);
+        })
+      },
+      _getArticles(){
+        axios.get("/api/articles/get").then((res) => {
+          console.log(res)
+          this.articles = res.data;
+        }).catch((err) => {
+          console.log("获取失败");
+          console.log(err);
+        })
       }
     },
     components: {
@@ -200,6 +184,8 @@
             float: right;
           }
           .label-item {
+            display: inline-block;
+            margin: 2px;
             padding: 0 6px;
             background-color: @labelBackground;
             .transition(all, 0.35s);
