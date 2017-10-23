@@ -21,7 +21,7 @@
   }
 </script>
 
-<style>
+<style lang="less">
   html {
     margin: 0;
     padding: 0;

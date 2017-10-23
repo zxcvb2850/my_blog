@@ -46,16 +46,28 @@
         .nav-item {
           list-style-type: none;
           display: inline-block;
-          margin: 0 20px;
           height: @topHeight;
           line-height: @topHeight;
           font-size: @fontSize;
+          a{
+            padding: 0 20px;
+            display: block;
+          }
+          &.active a{
+            color: #ff8aaf;
+          }
         }
       }
       .search {
         flex: 0 0 50px;
         height: @topHeight;
         line-height: @topHeight;
+        a{
+          display: block;
+        }
+        a.active{
+          color: #ff8aaf;
+        }
       }
     }
   }

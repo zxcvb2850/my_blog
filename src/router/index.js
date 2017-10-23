@@ -8,6 +8,7 @@ import Search from 'components/search/search'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -29,9 +30,10 @@ export default new Router({
       component: Web
     },
     {
-      name:'搜索',
-      path:'/search',
-      component:Search
+      name: '搜索',
+      path: '/search',
+      component: Search
     }
-  ]
+  ],
+  linkActiveClass: 'active'
 })

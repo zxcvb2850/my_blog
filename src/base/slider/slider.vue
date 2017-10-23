@@ -1,18 +1,18 @@
 <template>
   <div class="slider" ref="slider">
     <div class="slider-group" ref="sliderGroup">
-      <slot></slot>
+      <slot>
+
+      </slot>
     </div>
     <div class="dots">
-      <span class="dot" v-for="(cur,index) in dots" :class="{active:currentPageIndex === index}"
-            @click="dotClick(index)"></span>
+      <span class="dot" v-for="(cur,index) in dots" :class="{active:currentPageIndex === index}"></span>
     </div>
   </div>
 </template>
 
 <script>
-  import BScroll from "better-scroll"
-
+  import BScroll from 'better-scroll';
   export default {
     name: 'slider',
     props: {
@@ -53,18 +53,6 @@
       })
     },
     methods: {
-      dotClick(index){
-        if (this.currentPageIndex === index) {
-          return;
-        }
-        this.currentPageIndex = index + 1;
-
-        this.slider.goToPage(this.currentPageIndex, 0);
-        if (this.autoPlay) {
-          clearTimeout(this.timer);
-          this._play();
-        }
-      },
       _setSliderWidth(isResize){
         this.children = this.$refs.sliderGroup.children;
         let width = 0;
@@ -113,32 +101,28 @@
         this.timer = setTimeout(() => {
           this.slider.goToPage(pageIndex, 0, 400)
         }, this.interval)
-      }
+      },
     }
   }
 </script>
 
 <style lang="less" scoped>
-  @import "~common/style/index.less";
+  @import '~common/style/index.less';
 
   .slider {
     margin: 0 auto;
+    width: 80%;
     min-height: 1px;
     max-height: 500px;
-    width: 90%;
     .slider-group {
       position: relative;
       overflow: hidden;
       .slider-item {
-        position: relative;
         float: left;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
         overflow: hidden;
+        .border-box;
       }
       img {
-        padding: 0;
         display: block;
         width: 100%;
       }
@@ -152,12 +136,13 @@
       font-size: 0;
       .dot {
         display: inline-block;
-        margin: 0 2px;
-        width: 30px;
+        margin: 0 4px;
+        width: 8px;
         height: 8px;
-        background: #f00;
+        border-radius: 50%;
+        background: @snowColor;
         &.active {
-          background-color: #ff0;
+          background-color: @hotColor;
         }
       }
     }

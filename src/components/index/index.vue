@@ -1,9 +1,9 @@
 <template>
   <article class="art-index">
-    <div class="slider-wrapper">
+    <div v-if="banners.length" class="slider-wrapper">
       <slider>
-        <div class="slider-item" v-for="item in banner">
-          <img :src="item.imgScr" alt="">
+        <div v-for="banner in banners" class="slider-item">
+          <img class="needsclick" :src="banner.src" alt="">
         </div>
       </slider>
     </div>
@@ -12,7 +12,7 @@
         <h1 class="art-title">最新发布</h1>
         <ul class="list">
           <li class="list-item" v-for="article in articles">
-            <a class="title" href="#"><h3>{{article.title}}</h3></a>
+            <a class="title" href="#" @click="detailedArticle"><h3>{{article.title}}</h3></a>
             <div class="img"><img :src="article.img" alt=""></div>
             <p class="desc">{{article.desc}}...</p>
             <div class="label">
@@ -69,7 +69,7 @@
   export default {
     data() {
       return {
-        banner: [],
+        banners: [],
         articles: []
       }
     },
@@ -78,9 +78,13 @@
       this._getArticles();
     },
     methods: {
+      detailedArticle(){
+        console.log("detailedArticle");
+      },
       _getBanner(){
         axios.get("/api/banner/get").then((res) => {
-          console.log(res)
+          //console.log(res)
+          this.banners = res.data;
         }).catch((err) => {
           console.log("获取banner报错啦");
           console.log(err);
@@ -88,7 +92,6 @@
       },
       _getArticles(){
         axios.get("/api/articles/get").then((res) => {
-          console.log(res)
           this.articles = res.data;
         }).catch((err) => {
           console.log("获取失败");
@@ -110,7 +113,6 @@
     width: 100%;
     .slider-wrapper {
       position: relative;
-      top: 10px;
       width: 100%;
       overflow: hidden;
     }
