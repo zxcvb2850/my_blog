@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <v-header></v-header>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <router-view></router-view>
     <v-footer></v-footer>
   </div>
 </template>
@@ -27,7 +25,8 @@
     padding: 0;
     background-color: #f6f6f6;
   }
-  a{
+
+  a {
     text-decoration: none;
     color: #2c3e50;
   }

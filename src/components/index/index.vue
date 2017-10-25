@@ -17,7 +17,7 @@
             <p class="desc">{{article.desc}}...</p>
             <div class="label">
               <a href="javascript:;" class="read">阅读次数：{{article.read}}&nbsp;&nbsp;&nbsp;</a>
-              <a href="javascript:;" class="leaving">留言（{{article.leaving}}）</a>
+              <a href="javascript:;" class="leaving">留言（{{article.leavs.length}}）</a>
               <ol>
                 <li class="label-item" v-for="label in article.label">
                   <a href="javascript:;">{{label}}</a>
@@ -83,8 +83,11 @@
       },
       _getBanner(){
         axios.get("/api/banner/get").then((res) => {
-          //console.log(res)
-          this.banners = res.data;
+          res = res.data;
+          if (res.status === 200) {
+            console.log(res.data)
+            this.banners = res.data;
+          }
         }).catch((err) => {
           console.log("获取banner报错啦");
           console.log(err);
@@ -92,7 +95,10 @@
       },
       _getArticles(){
         axios.get("/api/articles/get").then((res) => {
-          this.articles = res.data;
+          res = res.data;
+          if (res.status === 200) {
+            this.articles = res.data;
+          }
         }).catch((err) => {
           console.log("获取失败");
           console.log(err);
