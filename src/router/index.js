@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from 'components/index/index'
 import Message from 'components/message/message'
-import Web from 'components/web/web'
+import Web from 'components/web/index'
 import Search from 'components/search/search'
+import Articles from 'components/articles/articles'
 
 Vue.use(Router)
 
@@ -27,12 +28,17 @@ export default new Router({
     {
       name: 'WEB前端',
       path: '/web',
-      component: Web
+      component: Web,
     },
     {
       name: '搜索',
       path: '/search',
       component: Search
+    },
+    {
+      name: '详情',
+      path: '/web/:id',
+      component: Articles
     }
   ],
   linkActiveClass: 'active'

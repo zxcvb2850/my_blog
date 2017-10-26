@@ -49,11 +49,11 @@
           height: @topHeight;
           line-height: @topHeight;
           font-size: @fontSize;
-          a{
+          a {
             padding: 0 20px;
             display: block;
           }
-          &.active a{
+          &.active a {
             color: #ff8aaf;
           }
         }
@@ -62,10 +62,10 @@
         flex: 0 0 50px;
         height: @topHeight;
         line-height: @topHeight;
-        a{
+        a {
           display: block;
         }
-        a.active{
+        a.active {
           color: #ff8aaf;
         }
       }

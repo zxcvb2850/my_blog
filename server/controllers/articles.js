@@ -8,7 +8,18 @@ const ERR_OK = 200;
 const ERROR = 100;
 
 exports.get = function (req, res, next) {
-  models.Articles.find((err, data) => {
+  let type = req.query.type || '';
+  let select = {};
+  if (type) {
+    select = {
+      label: {
+        $all: [type]
+      }
+    };
+  }
+  console.error(select)
+
+  models.Articles.find(select, (err, data) => {
     let response = {};
     if (err) {
       response.status = ERROR;

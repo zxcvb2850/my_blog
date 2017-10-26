@@ -28,7 +28,9 @@ const articlesSchema = new Schema({
   "parent": Number,
   "title": String,
   "img": String,
+  "from": String,
   "desc": String,
+  "content": String,
   "read": Number,
   "leaving": Array,
   "label": Array

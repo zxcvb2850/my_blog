@@ -1,11 +1,23 @@
 <template>
-  <article class="art-web">web</article>
+  <article class="art-web">
+    <router-view></router-view>
+  </article>
 </template>
 
 <script>
-    export default {}
+  import {mapGetters} from "vuex"
+
+  export default {
+    computed: {
+      ...mapGetters([
+        'article'
+      ])
+    }
+  }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+  .art-web {
 
+  }
 </style>

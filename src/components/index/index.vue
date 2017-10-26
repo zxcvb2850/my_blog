@@ -10,22 +10,7 @@
     <div class="itemize">
       <div class="new-left">
         <h1 class="art-title">最新发布</h1>
-        <ul class="list">
-          <li class="list-item" v-for="article in articles">
-            <a class="title" href="#" @click="detailedArticle"><h3>{{article.title}}</h3></a>
-            <div class="img"><img :src="article.img" alt=""></div>
-            <p class="desc">{{article.desc}}...</p>
-            <div class="label">
-              <a href="javascript:;" class="read">阅读次数：{{article.read}}&nbsp;&nbsp;&nbsp;</a>
-              <a href="javascript:;" class="leaving">留言（{{article.leavs.length}}）</a>
-              <ol>
-                <li class="label-item" v-for="label in article.label">
-                  <a href="javascript:;">{{label}}</a>
-                </li>
-              </ol>
-            </div>
-          </li>
-        </ul>
+        <articles-list :articles="articles"></articles-list>
       </div>
       <div class="rec-right">
         <div class="new-comment">
@@ -63,8 +48,10 @@
 </template>
 
 <script>
-  import Slider from "base/slider/slider"
+  import {mapMutations, mapGetters} from "vuex"
   import axios from "axios"
+  import Slider from "base/slider/slider"
+  import articlesList from "base/articlesList/articlesList"
 
   export default {
     data() {
@@ -78,9 +65,6 @@
       this._getArticles();
     },
     methods: {
-      detailedArticle(){
-        console.log("detailedArticle");
-      },
       _getBanner(){
         axios.get("/api/banner/get").then((res) => {
           res = res.data;
@@ -103,10 +87,15 @@
           console.log("获取失败");
           console.log(err);
         })
-      }
+      },
+      ...mapMutations({
+        'setArticle': 'SET_ARTICLE',
+        'setRouter': 'SET_PATHROUTER'
+      }),
     },
     components: {
-      Slider
+      Slider,
+      articlesList
     }
   }
 </script>
@@ -257,26 +246,26 @@
       }
       .label {
         margin-top: 20px;
-      }
-      .label-item {
-        display: inline-block;
-        margin: 4px 0px;
-        font-size: 0;
-        .text {
-          display: block;
-          padding: 6px 10px;
-          border: 1px solid #888;
-          font-size: @smallFontSize;
-          color: #888;
-          &.hot {
-            border: 1px solid @hotColor;
-            color: @hotColor;
-          }
-        }
-        &:hover {
+        .label-item {
+          display: inline-block;
+          margin: 4px 0px;
+          font-size: 0;
           .text {
-            background-color: #282828;
-            color: @snowColor;
+            display: block;
+            padding: 6px 10px;
+            border: 1px solid #888;
+            font-size: @smallFontSize;
+            color: #888;
+            &.hot {
+              border: 1px solid @hotColor;
+              color: @hotColor;
+            }
+          }
+          &:hover {
+            .text {
+              background-color: #282828;
+              color: @snowColor;
+            }
           }
         }
       }

@@ -43,7 +43,7 @@
         if (this.autoPlay) {
           this._play()
         }
-      }, 20)
+      }, 20);
       window.addEventListener('resize', () => {
         if (!this.slider) {
           return;
@@ -54,6 +54,10 @@
     },
     methods: {
       _setSliderWidth(isResize){
+        if (typeof this.$refs.sliderGroup.children === 'undefined') {
+            return;
+        }
+        console.log(this.$refs.sliderGroup.children)
         this.children = this.$refs.sliderGroup.children;
         let width = 0;
         let sliderWidth = this.$refs.slider.clientWidth;
