@@ -9,12 +9,15 @@
 </template>
 
 <script>
-  import {mapGetters} from "vuex"
-
   export default{
     data(){
       return {
         breadList: {} // 路由集合
+      }
+    },
+    watch: {
+      $route () {
+        this.getBreadcrumb();
       }
     },
     created(){
@@ -22,7 +25,8 @@
     },
     methods: {
       getBreadcrumb (){
-        let router = this.pathRouter.split('/');
+        let pathRouter = this.$route.path;
+        let router = pathRouter.split('/');
         let abc = '';
         for (let i = 0; i < router.length; i++) {
           let str = `"title":"${router[i]}","path":"/${router[i]}"`;
@@ -32,10 +36,8 @@
         this.breadList = JSON.parse(a);
         this.breadList[0].title = "首页";
         this.breadList[0].path = "/index";
+        this.breadList[this.breadList.length - 1].title = this.$route.name;
       }
-    },
-    computed: {
-      ...mapGetters(['pathRouter'])
     }
   }
 </script>
@@ -55,7 +57,7 @@
           border-bottom-left-radius: 10px;
         }
         &:last-child a {
-          pointer-events: none;       //禁止点击
+          pointer-events: none; //禁止点击
         }
 
         &:first-child a:before {

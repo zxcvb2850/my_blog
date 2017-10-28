@@ -55,9 +55,8 @@
     methods: {
       _setSliderWidth(isResize){
         if (typeof this.$refs.sliderGroup.children === 'undefined') {
-            return;
+          return;
         }
-        console.log(this.$refs.sliderGroup.children)
         this.children = this.$refs.sliderGroup.children;
         let width = 0;
         let sliderWidth = this.$refs.slider.clientWidth;
@@ -106,6 +105,12 @@
           this.slider.goToPage(pageIndex, 0, 400)
         }, this.interval)
       },
+    },
+    activated(){
+      this._setSliderWidth();
+    },
+    deactivated(){
+      this._setSliderWidth();
     }
   }
 </script>

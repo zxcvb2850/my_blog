@@ -10,6 +10,8 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  saveScrollPosition: true, // 当用户点击后退按钮时，借助 HTML5 history 中的 popstate 事件对应的 state 来重置页面的滚动位置。注意，当 <router-view> 设定了相应的场景切换效果时，这个可能不会得到预想的效果。
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/',
@@ -36,10 +38,9 @@ export default new Router({
       component: Search
     },
     {
-      name: '详情',
+      name: '文章详情',
       path: '/web/:id',
       component: Articles
     }
-  ],
-  linkActiveClass: 'active'
+  ]
 })

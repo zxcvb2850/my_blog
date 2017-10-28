@@ -19,8 +19,6 @@
 </template>
 
 <script>
-  import {mapMutations, mapGetters} from "vuex"
-
   export default {
     props: {
       articles: {
@@ -33,15 +31,7 @@
         this.$router.push({
           path: `/web/${item._id}`
         });
-        this.setRouter(`/web/${item.title}`)
-        setTimeout(() => {
-          this.setArticle(item)
-        }, 200)
       },
-      ...mapMutations({
-        'setArticle': 'SET_ARTICLE',
-        'setRouter': 'SET_PATHROUTER'
-      }),
     }
   }
 </script>

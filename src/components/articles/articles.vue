@@ -3,16 +3,13 @@
     <div class="detail-left">
       <breadCrumb></breadCrumb>
       <div class="content">
-        <h1 class="title">{{article.title}}</h1>
-        <p class="time">{{article.time}} (<span class="from">{{article.from}}</span>) 阅读次数：{{article.read}}</p>
-        <p class="content" v-html="this._wrapLine(article.content)"></p>
+        <h1 class="title">{{nowArticle.title}}</h1>
+        <p class="time">{{nowArticle.time}} (<span class="from">{{nowArticle.from}}</span>) 阅读次数：{{nowArticle.read}}</p>
+        <p class="content" v-html="content"></p>
       </div>
       <div class="label">
-        <a href="javascript:;" class="read"
-           @click="detailedArticle(article)">阅读次数：{{article.read}}&nbsp;&nbsp;&nbsp;</a>
-        <a href="javascript:;" class="leaving">留言（{{article.leavs.length}}）</a>
         <ol>
-          <li class="label-item" v-for="label in article.label">
+          <li class="label-item" v-for="label in nowArticle.label">
             <a href="javascript:;">{{label}}</a>
           </li>
         </ol>
@@ -30,30 +27,54 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import axios from 'axios'
   import breadCrumb from 'base/breadcrumb/breadcrumb.vue'
 
   export default {
-    mounted(){
+    data(){
+      return {
+        nowArticle: [],
+        content: ''
+      }
+    },
+    created(){
       setTimeout(() => {
-        this._getPath();
+        this._getArticle();
+        this.wrapLine();
       }, 200)
     },
     methods: {
-      _wrapLine(val){
-        return val.replace(/[\n]/g, "<br/>");
+      wrapLine(){
+        setTimeout(() => {
+          let content = this.nowArticle.content;
+          if (content) {
+            this.content = content.replace(/[\n]/g, "<br/>");
+          }
+        }, 200)
       },
-      _getPath(){
-        if (!this.article._id) {
-          this.$router.back();
-        }
+      _getArticle(){
+        this.articleId = this.$route.params.id;
+        axios.get(`/api/article/detail?id=${this.articleId}`)
+          .then((res) => {
+            res = res.data;
+            if (res.status === 200) {
+              this.nowArticle = res.data[0];
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("文章获取失败");
+          })
       }
-    },
-    computed: {
-      ...mapGetters(['article'])
     },
     components: {
       breadCrumb
+    },
+    activated(){
+      this._getArticle();
+    },
+    deactivated(){
+      this._getArticle();
     }
   }
 </script>
