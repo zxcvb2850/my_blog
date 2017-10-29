@@ -50,16 +50,21 @@ exports.add = function (req, res, next) {
  * 获取文章详情
  * */
 exports.detail = function (req, res, next) {
+  let response = {};
   let id = req.query.id || '';
   let detail = {};
   if (id) {
     detail = {
       _id: Object(id)
     };
+  } else {
+    response.status = ERROR;
+    response.msg = "暂无此文章的详情";
+    res.json(response);
+    console.log("没有传入文章ID");
   }
 
   models.Articles.find(detail, (err, data) => {
-    let response = {};
     if (err) {
       response.status = ERROR;
       response.msg = "服务器错误";

@@ -3,37 +3,6 @@
     <div class="new-left">
       <articles-list :articles="webArticles"></articles-list>
     </div>
-    <!--<div class="rec-right">
-      <div class="new-comment">
-        <h4 class="new-title">最新评论</h4>
-        <ul class="comment">
-          <li class="comment-item">
-            <a class="content" href="javascript:;">计开发5～15屏页面，兼容手机计开发5～15屏页面，兼容手机</a>
-            <div class="info">
-              <img class="avatar" src="../../assets/logo.png" alt="">
-              <span class="username">提供者</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="new-label">
-        <h4 class="new-title">热门标签</h4>
-        <ul class="label">
-          <li class="label-item">
-            <a class="text" href="javascript:;">web前端</a>
-          </li>
-          <li class="label-item">
-            <a class="text" href="javascript:;">javascript</a>
-          </li>
-          <li class="label-item">
-            <a class="text" href="javascript:;">node</a>
-          </li>
-          <li class="label-item">
-            <a class="text hot" href="javascript:;">vue</a>
-          </li>
-        </ul>
-      </div>
-    </div>-->
   </div>
 </template>
 
@@ -52,7 +21,7 @@
     },
     methods: {
       _getArticles(){
-        axios.get("/api/articles/get?type=web前端").then((res) => {
+        axios.get("/api/articles/get?type=web").then((res) => {
           res = res.data;
           if (res.status === 200) {
             this.webArticles = res.data;
