@@ -23,6 +23,7 @@
     "less-loader": "^4.0.5",
     "mongoose": "^4.12.3",
     "morgan": "~1.8.1",
+    "promise": "^8.0.1",
     "serve-favicon": "~2.4.2",
     "vue": "^2.5.2",
     "vue-concise-slider": "^2.1.3",

@@ -5,14 +5,72 @@
       <div class="content">
         <h1 class="title">{{nowArticle.title}}</h1>
         <p class="time">{{nowArticle.time}} (<span class="from">{{nowArticle.from}}</span>) 阅读次数：{{nowArticle.read}}</p>
-        <p class="content" v-html="content"></p>
+        <p class="content">{{content}}</p>
+        <div class="label">
+          <ol>
+            <li class="label-item" v-for="label in nowArticle.label">
+              <a href="javascript:;">{{label}}</a>
+            </li>
+          </ol>
+        </div>
       </div>
-      <div class="label">
-        <ol>
-          <li class="label-item" v-for="label in nowArticle.label">
-            <a href="javascript:;">{{label}}</a>
+      <div class="detail-comment">
+        <el-form :model="message" :rules="rules2" ref="message" label-width="80px" class="demo-ruleForm"
+                 label-position="left">
+          <el-form-item label="用户名：" prop="user">
+            <el-input type="text" v-model="message.user" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱：" prop="email">
+            <el-input type="email" v-model="message.email" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="留言：" prop="msg">
+            <el-input v-model="message.msg" type="textarea" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('message')">发表</el-button>
+            <el-button @click="resetForm('message')">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="comment-content">
+        <ul class="msg">
+          <li class="item-msg">
+            <div class="avatar"><img src="../../assets/logo.png" alt=""></div>
+            <div class="center">
+              <div class="info">
+                <h4 class="username">xxx</h4>
+                <p class="email">zxcvb2850@163.com</p>
+              </div>
+              <p class="content">xxxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx
+              </p>
+              <footer>
+                <p>
+                  <span>时间:</span>
+                  <time>2017-10-10</time>
+                </p>
+                <p><a href="javascript:;">回复</a></p>
+              </footer>
+            </div>
           </li>
-        </ol>
+          <li class="item-msg">
+            <div class="avatar"><img src="../../assets/logo.png" alt=""></div>
+            <div class="center">
+              <div class="info">
+                <h4 class="username">xxx</h4>
+                <p class="email">zxcvb2850@163.com</p>
+              </div>
+              <p class="content">xxxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx<br>xxxxxxxxx
+              </p>
+              <footer>
+                <p>
+                  <span>时间:</span>
+                  <time>2017-10-10</time>
+                </p>
+                <p><a href="javascript:;">回复</a></p>
+              </footer>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="detail-right">
@@ -32,18 +90,68 @@
 
   export default {
     data(){
+      let checkMsg = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('留言内容不能为空'));
+        }
+      };
+      let validateUser = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('用户名内容不能为空'));
+        }
+      };
+      let validateEmail = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('邮箱不能为空'));
+        }
+        if (!/^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g.test(value)) {
+          return callback(new Error('邮箱--------不能为空'));
+        }
+      };
       return {
         nowArticle: [],
-        content: ''
+        content: '',
+
+        //评论所需
+        textarea: '',
+        message: {
+          user: '',
+          email: '',
+          msg: ''
+        },
+        rules2: {
+          user: [
+            {validator: validateUser, trigger: 'blur'}
+          ],
+          email: [
+            {validator: validateEmail, trigger: 'blur'}
+          ],
+          msg: [
+            {validator: checkMsg, trigger: 'blur'}
+          ]
+        }
       }
     },
     created(){
       setTimeout(() => {
-        this._getArticle();
         this.wrapLine();
       }, 200)
     },
     methods: {
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          console.log(valid)
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
       wrapLine(){
         setTimeout(() => {
           let content = this.nowArticle.content;
@@ -102,14 +210,15 @@
         padding: 0 30px;
         line-height: @titleFontSize;
         font-size: @fontSize;
-        text-indent: 2em;
         text-align: left;
+        overflow: hidden;
       }
       .label {
         padding: 0 20px;
-        height: @textHeight;
         line-height: @textHeight;
         font-size: @smallFontSize;
+        text-indent: 0;
+        overflow: hidden;
         .border-box;
         .read, .leaving {
           display: inline-block;
@@ -138,7 +247,64 @@
           }
           a {
             display: block;
+            text-align: center;
             color: #fff;
+          }
+        }
+      }
+      .detail-comment {
+        margin: 0 50px;
+        padding-bottom: 20px;
+        .border-1px(@infoColor);
+      }
+      .comment-content {
+        .item-msg {
+          list-style-type: none;
+          margin: 10px 0;
+          display: flex;
+          .border-1px(@infoColor);
+          .avatar {
+            flex: @avatarWidth 0 0;
+            img {
+              width: 100%;
+            }
+          }
+          .center {
+            flex: 1;
+            padding-left: 20px;
+            .info {
+              .username, .email {
+                display: inline-block;
+              }
+              .username {
+                padding: 0;
+                margin: 0;
+                font-size: @titleFontSize;
+              }
+              .email {
+                margin-left: 20px;
+                font-size: @smallFontSize;
+              }
+            }
+            .content {
+              margin: 0;
+              padding: 6px;
+              font-size: @fontSize;
+            }
+            footer {
+              font-size: @smallFontSize;
+              p {
+                display: inline-block;
+                color: @infoColor;
+              }
+              a {
+                margin-left: 20px;
+                &:hover {
+                  text-decoration: underline;
+                  color: @hotColor;
+                }
+              }
+            }
           }
         }
       }

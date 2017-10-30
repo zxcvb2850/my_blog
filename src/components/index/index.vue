@@ -54,7 +54,6 @@
     },
     mounted(){
       this._getBanner();
-      this._getArticles();
       this._getLabels();
     },
     methods: {
@@ -92,9 +91,7 @@
                 arr.push(item[j]);
               }
             }
-            console.log(arr)
             this.labels = this.unique(arr);
-            console.log(this.labels);
           }
         })
       },

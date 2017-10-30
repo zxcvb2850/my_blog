@@ -16,6 +16,7 @@ router.post('/articles/post', articles.add);
 router.get('/articles/get', articles.get);
 /*获取文章详细*/
 router.get('/article/detail', articles.detail);
+router.get('/article/detail/read', articles.read);
 /*获取所有的标签*/
 router.get('/label', articles.label);
 
