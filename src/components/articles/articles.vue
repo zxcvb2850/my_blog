@@ -144,17 +144,17 @@
                 if (res.data.status === -1) {
                   this.msg = res.data.msg
                   this.open(res.msg);
+                } else {
+                  console.log(res);
+                  this.resetForm('ruleForm2');
+                  this._getLeavs();
                 }
-                this._getLeavs();
               })
               .catch((err) => {
-                this.msg = res.msg;
-                this.open();
                 console.log(err);
                 console.log("获取失败")
               })
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
