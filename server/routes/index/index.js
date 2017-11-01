@@ -19,5 +19,8 @@ router.get('/article/detail', articles.detail);
 router.get('/article/detail/read', articles.read);
 /*获取所有的标签*/
 router.get('/label', articles.label);
+/*留言*/
+router.get('/article/leavs/get', articles.getLeavs);
+router.post('/article/leavs', articles.leavs);
 
 module.exports = router;

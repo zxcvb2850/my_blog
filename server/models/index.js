@@ -29,10 +29,11 @@ const articlesSchema = new Schema({
   "title": String,
   "img": String,
   "from": String,
+  "time": String,
   "desc": String,
   "content": String,
   "read": Number,
-  "leaving": Array,
+  "leavs": Array,
   "label": Array
 });
 

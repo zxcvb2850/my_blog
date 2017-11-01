@@ -16,9 +16,6 @@
           webArticles:[]
       }
     },
-    mounted(){
-      this._getArticles();
-    },
     methods: {
       _getArticles(){
         axios.get("/api/articles/get?type=web").then((res) => {
@@ -34,6 +31,9 @@
     },
     components: {
       articlesList
+    },
+    activated(){
+      this._getArticles();
     }
   }
 </script>
