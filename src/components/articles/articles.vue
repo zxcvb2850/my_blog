@@ -216,6 +216,7 @@
     activated(){
       this._getArticle();
       this._getLeavs();
+      this.resetForm('ruleForm2');
     }
   }
 </script>

@@ -3,8 +3,10 @@
  */
 const models = require('../models/index');
 const Promise = require('promise');
+const log4js = require('log4js');
 const util = require('../public/javascripts/util');
 
+const logger = log4js.getLogger();
 const ERR_OK = 200;
 const ERROR = -1;
 
@@ -46,6 +48,26 @@ exports.get = function (req, res, next) {
 exports.add = function (req, res, next) {
   res.send("修改中");
 };
+
+/*
+ * 获取热门文章
+ * */
+exports.getHot = (req, res, next) => {
+  let response = {}
+  models.Articles.update({}, {title: 1, desc: 1, parent: 1, time: 1}, function (err, data) {
+    if (err) {
+      response.msg = "获取文章失败";
+      response.status = ERROR;
+      logger.error("文章获取失败" + err);
+      return res.json(response);
+    } else {
+      response.count = data.length;
+      response.data = data;
+      response.status = ERR_OK;
+      res.json(response);
+    }
+  }).$sort({read: -1});
+}
 
 /*
  * 获取文章详情
