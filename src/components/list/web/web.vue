@@ -1,6 +1,7 @@
 <template>
   <div class="itemize">
     <div class="new-left">
+      <bread-crumb></bread-crumb>
       <articles-list :articles="webArticles"></articles-list>
     </div>
   </div>
@@ -9,12 +10,16 @@
 <script>
   import axios from "axios"
   import articlesList from "base/articlesList/articlesList"
+  import breadCrumb from 'base/breadcrumb/breadcrumb'
 
   export default {
     data(){
       return {
         webArticles:[]
       }
+    },
+    created(){
+      this._getArticles();
     },
     methods: {
       _getArticles(){
@@ -30,10 +35,8 @@
       },
     },
     components: {
-      articlesList
-    },
-    activated(){
-      this._getArticles();
+      articlesList,
+      breadCrumb
     }
   }
 </script>

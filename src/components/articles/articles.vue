@@ -55,15 +55,7 @@
       </div>
     </div>
     <div class="detail-right">
-      <div class="hot">
-        <h3 class="title">热门文章</h3>
-        <ul>
-          <li v-for="item in hotArticle">
-            <time>{{item.time}}</time>
-            <h3>{{item.title}}</h3>
-          </li>
-        </ul>
-      </div>
+      <hot-articles></hot-articles>
     </div>
     <el-button type="text" @click="open"></el-button>
   </div>
@@ -71,7 +63,8 @@
 
 <script>
   import axios from 'axios'
-  import breadCrumb from 'base/breadcrumb/breadcrumb.vue'
+  import breadCrumb from 'base/breadcrumb/breadcrumb'
+  import hotArticles from 'base/hotArticles/hotArticles'
 
   export default {
     data(){
@@ -134,6 +127,11 @@
         this._getHotArticle();
       }, 200)
     },
+    watch: {
+      $route () {
+        this._getArticle();
+      }
+    },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -150,7 +148,6 @@
                   this.msg = res.data.msg
                   this.open(res.msg);
                 } else {
-                  console.log(res);
                   this.resetForm('ruleForm2');
                   this._getLeavs();
                 }
@@ -219,7 +216,6 @@
           .then((res) => {
             res = res.data;
             this.hotArticle = res.data;
-            console.log(this.hotArticle);
           })
           .catch((err) => {
             console.log(err)
@@ -227,7 +223,8 @@
       }
     },
     components: {
-      breadCrumb
+      breadCrumb,
+      hotArticles
     },
     activated(){
       this._getArticle();
@@ -365,6 +362,33 @@
       margin-top: 80px;
       padding: 0 20px;
       overflow: hidden;
+      .hot {
+        .hot-item {
+          list-style-type: none;
+          margin: 5px 0;
+          height: @textHeight;
+          line-height: @textHeight;
+          overflow: hidden;
+          time {
+            float: left;
+            margin-right: 10px;
+            padding: 0 10px;
+            font-size: @smallFontSize;
+            background-color: @dateBackground;
+            color: @snowColor;
+            .border-radius(10px);
+          }
+          .hot-title {
+            margin: 0;
+            padding: 0;
+            .no-wrap;
+            &:hover {
+              color: @hotColor;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
     }
   }
 

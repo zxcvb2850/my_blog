@@ -30,17 +30,17 @@ export default new Router({
       component: Message
     },
     {
-      name: 'WEB',
+      name: 'web',
       path: '/web',
       component: Web,
     },
     {
-      name: 'NODE',
+      name: 'node',
       path: '/node',
       component: Node,
     },
     {
-      name: 'VUE',
+      name: 'vue',
       path: '/vue',
       component: VueArt,
     },

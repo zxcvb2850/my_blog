@@ -11,6 +11,11 @@
       <div class="new-left">
         <h1 class="art-title">最新发布</h1>
         <articles-list :articles="articles"></articles-list>
+        <div class="pagenation">
+          <el-pagination @current-change="handleCurrentChange" :page-size="pageSize" yout="pager, jumper"
+                         :total="count">
+          </el-pagination>
+        </div>
       </div>
       <div class="rec-right">
         <div class="new-comment">
@@ -33,6 +38,7 @@
             </li>
           </ul>
         </div>
+        <hot-articles></hot-articles>
       </div>
     </div>
   </article>
@@ -42,6 +48,7 @@
   import axios from "axios"
   import Slider from "base/slider/slider"
   import articlesList from "base/articlesList/articlesList"
+  import hotArticles from "base/hotArticles/hotArticles"
   //import {unique} from "common/js/util"
 
   export default {
@@ -50,6 +57,8 @@
         banners: [],
         articles: [],
         labels: [],
+        pageSize: 2,
+        count: 0
       }
     },
     mounted(){
@@ -57,6 +66,10 @@
       this._getLabels();
     },
     methods: {
+      handleCurrentChange(val) {
+        this._getArticles(val)
+        console.log(`当前页: ${val}`);
+      },
       _getBanner(){
         axios.get("/api/banner/get").then((res) => {
           res = res.data;
@@ -68,10 +81,11 @@
           console.log(err);
         })
       },
-      _getArticles(){
-        axios.get("/api/articles/get").then((res) => {
+      _getArticles(page = 1){
+        axios.get(`/api/articles/get?page=${page}&rows=${this.pageSize}`).then((res) => {
           res = res.data;
           if (res.status === 200) {
+            this.count = res.count;
             this.articles = res.data;
           }
         }).catch((err) => {
@@ -109,7 +123,8 @@
     },
     components: {
       Slider,
-      articlesList
+      articlesList,
+      hotArticles
     },
     activated(){
       this._getArticles();
@@ -140,6 +155,9 @@
       .art-title {
         flex: 1;
         font-size: @titleFontSize;
+      }
+      .pagenation {
+        margin: 30px 50px;
       }
     }
     .rec-right {

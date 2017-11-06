@@ -1,5 +1,7 @@
 <template>
   <article class="art-node">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </article>
 </template>

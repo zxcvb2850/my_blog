@@ -5,6 +5,7 @@ const models = require('../models/index');
 const Promise = require('promise');
 const log4js = require('log4js');
 const util = require('../public/javascripts/util');
+const common = require('../public/javascripts/common');
 
 const logger = log4js.getLogger();
 const ERR_OK = 200;
@@ -15,6 +16,10 @@ const ERROR = -1;
  * */
 exports.get = function (req, res, next) {
   let type = req.query.type || '';
+  let page = parseInt(req.query.page) || '';
+  let rows = parseInt(req.query.rows) || 10;
+  let start = (page - 1) * rows;
+  let response = {};
   let select = {};
   if (type) {
     select = {
@@ -23,22 +28,39 @@ exports.get = function (req, res, next) {
   } else {
     select = {}
   }
+  if (!page) {
+    start = rows = 0;
+  }
 
-  models.Articles.find(select, (err, data) => {
-    let response = {};
+  let query = models.Articles.find({}).skip(start).limit(rows);
+
+  query.exec(function (err, data) {
     if (err) {
-      response.status = ERROR;
-      response.msg = "服务器错误";
-      res.json(response);
-      console.error(err);
+      res.send(err);
     } else {
-      response.status = ERR_OK;
-      response.count = data.length;
-      response.data = data;
-      res.json(response);
-      console.log("成功");
+      //计算数据总数
+      models.Articles.find(function (err, result) {
+        jsonArray = {data: data, rows: data.length, count: result.length, status: ERR_OK};
+        res.json(jsonArray);
+      });
+
     }
-  }).sort({time: -1});
+  });
+
+  /*models.Articles.find(select, (err, data) => {
+   if (err) {
+   response.status = ERROR;
+   response.msg = "服务器错误";
+   res.json(response);
+   console.error(err);
+   } else {
+   response.status = ERR_OK;
+   response.rows = data.length;
+   response.data = data;
+   res.json(response);
+   console.log("成功");
+   }
+   }).sort({time: -1}).skip(start).limit(rows).count();*/
 };
 
 /*
@@ -53,29 +75,35 @@ exports.add = function (req, res, next) {
  * */
 exports.getHot = (req, res, next) => {
   let response = {}
-  models.Articles.find({}, {title: 1, parent: 1, time: 1}, function (err, data) {
+  models.Articles.find({}, {title: 1, parent: 1, type: 1, time: 1, read: 1}, function (err, data) {
     if (err) {
       response.msg = "获取文章失败";
       response.status = ERROR;
       logger.error("文章获取失败" + err);
       return res.json(response);
     } else {
+      for (let i = 0; i < data.length; i++) {
+        data[i].time = getMonth(data[i].time);
+      }
       response.count = data.length;
       response.data = data;
       response.status = ERR_OK;
       console.log(response);
-      console.log(1234);
       res.json(response);
     }
-  }).sort({read: -1});
+  }).sort({read: -1}).limit(5);
+}
+function getMonth(val) {
+  let date = new Date(parseInt(val));
+  return (common.Zerofill(date.getMonth() + 1)) + '-' + common.Zerofill(date.getDate());
 }
 
 /*
  * 获取文章详情
  * */
 exports.detail = function (req, res, next) {
-  let response = {};
   let id = req.query.id || '';
+  let response = {};
   let detail = {};
   if (id) {
     detail = {
@@ -84,8 +112,8 @@ exports.detail = function (req, res, next) {
   } else {
     response.status = ERROR;
     response.msg = "暂无此文章的详情";
-    res.json(response);
     console.log("没有传入文章ID");
+    return res.json(response);
   }
 
   //更新语法
@@ -93,6 +121,10 @@ exports.detail = function (req, res, next) {
   models.Articles.update(detail, {$inc: {read: 1}}, function (err, docs) {
     if (err) {
       console.error("更新失败" + err);
+      response.status = ERROR;
+      response.msg = "服务器错误";
+      console.log("更新失败");
+      return res.json(response);
     } else {
       console.error("更新成功" + docs);
       models.Articles.find(detail, (err, data) => {
@@ -102,6 +134,7 @@ exports.detail = function (req, res, next) {
           res.json(response);
           console.error(err);
         } else {
+          data[0].time = util.getNowDate(parseInt(data[0].time));
           response.status = ERR_OK;
           response.data = data;
           res.json(response);
