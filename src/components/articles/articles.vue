@@ -58,7 +58,10 @@
       <div class="hot">
         <h3 class="title">热门文章</h3>
         <ul>
-          <li></li>
+          <li v-for="item in hotArticle">
+            <time>{{item.time}}</time>
+            <h3>{{item.title}}</h3>
+          </li>
         </ul>
       </div>
     </div>
@@ -101,6 +104,7 @@
       return {
         nowArticle: [],
         leaving: [],
+        hotArticle: [],
         content: '',
         msg: '操作失误',
         title: '操作提示',
@@ -127,6 +131,7 @@
     created(){
       setTimeout(() => {
         this.wrapLine();
+        this._getHotArticle();
       }, 200)
     },
     methods: {
@@ -207,6 +212,17 @@
             this.open();
             console.log(err)
             console.log("获取评论失败")
+          })
+      },
+      _getHotArticle(){
+        axios.get('/api/articles/hot/get')
+          .then((res) => {
+            res = res.data;
+            this.hotArticle = res.data;
+            console.log(this.hotArticle);
+          })
+          .catch((err) => {
+            console.log(err)
           })
       }
     },

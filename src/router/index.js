@@ -2,7 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from 'components/index/index'
 import Message from 'components/message/message'
-import Web from 'components/web/index'
+import Web from 'components/list/web/web'
+import Node from 'components/list/node/node'
+import VueArt from 'components/list/vue/vue'
 import Search from 'components/search/search'
 import Articles from 'components/articles/articles'
 
@@ -28,9 +30,19 @@ export default new Router({
       component: Message
     },
     {
-      name: 'WEB前端',
+      name: 'WEB',
       path: '/web',
       component: Web,
+    },
+    {
+      name: 'NODE',
+      path: '/node',
+      component: Node,
+    },
+    {
+      name: 'VUE',
+      path: '/vue',
+      component: VueArt,
     },
     {
       name: '搜索',
@@ -40,6 +52,16 @@ export default new Router({
     {
       name: '文章详情',
       path: '/web/:id',
+      component: Articles
+    },
+    {
+      name: '文章详情',
+      path: '/node/:id',
+      component: Articles
+    },
+    {
+      name: '文章详情',
+      path: '/vue/:id',
       component: Articles
     }
   ]

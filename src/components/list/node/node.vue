@@ -1,7 +1,7 @@
 <template>
   <div class="itemize">
     <div class="new-left">
-      <articles-list :articles="webArticles"></articles-list>
+      <articles-list :articles="nodeArticles"></articles-list>
     </div>
   </div>
 </template>
@@ -13,15 +13,15 @@
   export default {
     data(){
       return {
-          webArticles:[]
+        nodeArticles:[]
       }
     },
     methods: {
       _getArticles(){
-        axios.get("/api/articles/get?type=web").then((res) => {
+        axios.get("/api/articles/get?type=2").then((res) => {
           res = res.data;
           if (res.status === 200) {
-            this.webArticles = res.data;
+            this.nodeArticles = res.data;
           }
         }).catch((err) => {
           console.log("获取失败");

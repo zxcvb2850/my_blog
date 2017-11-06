@@ -18,12 +18,11 @@ exports.get = function (req, res, next) {
   let select = {};
   if (type) {
     select = {
-      label: {
-        $all: [type]
-      }
-    };
+      type
+    }
+  } else {
+    select = {}
   }
-  console.error(select)
 
   models.Articles.find(select, (err, data) => {
     let response = {};
@@ -54,7 +53,7 @@ exports.add = function (req, res, next) {
  * */
 exports.getHot = (req, res, next) => {
   let response = {}
-  models.Articles.update({}, {title: 1, desc: 1, parent: 1, time: 1}, function (err, data) {
+  models.Articles.find({}, {title: 1, parent: 1, time: 1}, function (err, data) {
     if (err) {
       response.msg = "获取文章失败";
       response.status = ERROR;
@@ -64,9 +63,11 @@ exports.getHot = (req, res, next) => {
       response.count = data.length;
       response.data = data;
       response.status = ERR_OK;
+      console.log(response);
+      console.log(1234);
       res.json(response);
     }
-  }).$sort({read: -1});
+  }).sort({read: -1});
 }
 
 /*

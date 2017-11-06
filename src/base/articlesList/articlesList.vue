@@ -28,9 +28,26 @@
     },
     methods: {
       detailedArticle(item){
-        this.$router.push({
-          path: `/web/${item._id}`
-        });
+        let parent = item.parent;
+        let type = '';
+        if (parent === 2) {
+          switch (item.type) {
+            case 1:
+              type = 'web';
+              break;
+            case 2:
+              type = 'node';
+              break;
+            case 3:
+              type = 'vue';
+              break;
+            default:
+              type = 'web';
+          }
+          this.$router.push({
+            path: `/${type}/${item._id}`
+          });
+        }
       },
     }
   }
