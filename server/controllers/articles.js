@@ -2,12 +2,36 @@
  * Created by wang on 2017/10/25.
  */
 const models = require('../models/index');
-const Promise = require('promise');
 const log4js = require('log4js');
+var path = require("path")
 const util = require('../public/javascripts/util');
 const common = require('../public/javascripts/common');
 
-const logger = log4js.getLogger();
+log4js.configure(
+  {
+    appenders: {
+      file: {
+        type: 'file',
+        filename: './server/logs/test.log',//文件目录，当目录文件或文件夹不存在时，会自动创建
+        maxLogSize: 102400,//文件最大存储空间，当文件内容超过文件存储空间会自动生成一个文件test.log.1的序列自增长的文件
+        backups: 3,//当文件内容超过文件存储空间时，备份文件的数量
+        compress: false,//是否以压缩的形式保存新文件,默认false。如果true，则新增的日志文件会保存在gz的压缩文件内，并且生成后将不被替换，false会被替换掉
+        encoding: 'utf-8',//default "utf-8"，文件的编码
+        category: 'app',
+        numBackups: 5, // keep five backup files
+        pattern: 'yyyy-MM-dd-hh'
+      },
+      out: {
+        type: 'stdout'
+      }
+    },
+    categories: {
+      default: {appenders: ['file', 'out'], level: 'error'}
+    }
+  }
+);
+var logger = log4js.getLogger('app');
+
 const ERR_OK = 200;
 const ERROR = -1;
 
@@ -32,35 +56,32 @@ exports.get = function (req, res, next) {
     start = rows = 0;
   }
 
-  let query = models.Articles.find({}).skip(start).limit(rows);
+  let query = models.Articles.find(select).skip(start).limit(rows).sort({time: -1});
 
   query.exec(function (err, data) {
     if (err) {
-      res.send(err);
+      response.status = ERROR;
+      response.msg = "系统错误";
+      logger.error(err);
+      return res.json(response);
     } else {
       //计算数据总数
       models.Articles.find(function (err, result) {
-        jsonArray = {data: data, rows: data.length, count: result.length, status: ERR_OK};
-        res.json(jsonArray);
+        if (err) {
+          response.status = ERROR;
+          response.msg = "系统错误";
+          logger.error(err);
+          return res.json(response);
+        } else {
+          for (let i = 0; i < data.length; i++) {
+            data[i].time = util.getNowDate(data[i].time, false);
+          }
+          response = {data: data, rows: data.length, count: result.length, status: ERR_OK};
+          res.json(response);
+        }
       });
-
     }
   });
-
-  /*models.Articles.find(select, (err, data) => {
-   if (err) {
-   response.status = ERROR;
-   response.msg = "服务器错误";
-   res.json(response);
-   console.error(err);
-   } else {
-   response.status = ERR_OK;
-   response.rows = data.length;
-   response.data = data;
-   res.json(response);
-   console.log("成功");
-   }
-   }).sort({time: -1}).skip(start).limit(rows).count();*/
 };
 
 /*
@@ -88,7 +109,7 @@ exports.getHot = (req, res, next) => {
       response.count = data.length;
       response.data = data;
       response.status = ERR_OK;
-      console.log(response);
+      logger.info(response);
       res.json(response);
     }
   }).sort({read: -1}).limit(5);
@@ -112,7 +133,7 @@ exports.detail = function (req, res, next) {
   } else {
     response.status = ERROR;
     response.msg = "暂无此文章的详情";
-    console.log("没有传入文章ID");
+    logger.error("没有传入文章ID");
     return res.json(response);
   }
 
@@ -120,10 +141,9 @@ exports.detail = function (req, res, next) {
   //db.getCollection('index_articles').update({_id:ObjectId("59efeba77cf624053f3c5eab")}, {$inc:{read: 1}})
   models.Articles.update(detail, {$inc: {read: 1}}, function (err, docs) {
     if (err) {
-      console.error("更新失败" + err);
       response.status = ERROR;
       response.msg = "服务器错误";
-      console.log("更新失败");
+      logger.error("增加阅读失败" + err);
       return res.json(response);
     } else {
       console.error("更新成功" + docs);
@@ -131,14 +151,14 @@ exports.detail = function (req, res, next) {
         if (err) {
           response.status = ERROR;
           response.msg = "服务器错误";
+          logger.error(err);
           res.json(response);
-          console.error(err);
         } else {
-          data[0].time = util.getNowDate(parseInt(data[0].time));
+          data[0].time = util.getNowDate(data[0].time);
           response.status = ERR_OK;
           response.data = data;
+          logger.info(data);
           res.json(response);
-          console.log("成功");
         }
       });
     }
@@ -156,7 +176,7 @@ exports.read = function (req, res, next) {
   } else {
     response.status = ERROR;
     response.msg = "参数不正确";
-    console.log("没有传入文章ID");
+    logger.error("没有传入文章ID");
     return res.json(response);
   }
 
@@ -165,12 +185,12 @@ exports.read = function (req, res, next) {
       response.status = ERROR;
       response.msg = "服务器错误";
       res.json(response);
-      console.error(err);
+      logger.error(err);
     } else {
       response.status = ERR_OK;
       response.data = data;
+      logger.info("成功");
       res.json(response);
-      console.log("成功");
     }
   });
 }
@@ -184,15 +204,14 @@ exports.label = function (req, res, next) {
     if (err) {
       response.status = ERROR;
       response.msg = "服务器错误";
-      res.json(response);
-      console.error(err);
+      logger.error(err);
+      return res.json(response);
     } else {
-      console.log(data)
       response.status = ERR_OK;
       response.data = data;
       response.count = data.length;
+      logger.info(data)
       res.json(response);
-      console.log("成功");
     }
   });
 };
@@ -215,7 +234,7 @@ exports.getLeavs = (req, res, next) => {
   } else {
     response.status = ERROR;
     response.msg = "参数不正确";
-    console.log("没有传入文章ID");
+    logger.error("没有传入文章ID");
     return res.json(response);
   }
   if (!rows || !page) {
@@ -237,6 +256,7 @@ exports.getLeavs = (req, res, next) => {
       if (getData) {
         for (let i = 0; i < getData.length; i++) {
           getData[i].time = util.getNowDate(getData[i].time);
+          getData[i].email = getData[i].email.replace(/@([\da-z\.-]+)\./, '***');
         }
         response.status = ERR_OK;
         response.data = getData;
@@ -265,7 +285,7 @@ exports.leavs = (req, res, next) => {
   } else {
     response.status = ERROR;
     response.msg = "参数错误";
-    console.log("没有传入文章ID");
+    logger.error("没有传入文章ID");
     return res.json(response);
   }
 
@@ -275,15 +295,15 @@ exports.leavs = (req, res, next) => {
   let regEmail = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
   if (!regEmail.test(email)) {
     response.msg = "邮箱格式不正确";
+    logger.error("邮箱格式不正确");
     return res.json(response);
   }
 
   models.Articles.find(detail, {leavs: 1}, (err, data) => {
     let response = {};
     if (err) {
-      console.error("查询失败");
-      console.error(err);
-      return res.json({status: 500, msg: "服务器出错"});
+      logger.error("查询失败", err);
+      return res.json({status: ERROR, msg: "服务器出错"});
     }
     if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
@@ -291,8 +311,8 @@ exports.leavs = (req, res, next) => {
         for (let j = 0; j < leaving.length; j++) {
           if (name === leaving[j].name) {
             response.msg = "此用户名已使用，请跟换";
-            response.status = -1;
-            console.error(response.msg);
+            response.status = ERROR;
+            logger.error(response.msg);
             return res.json(response);
           }
         }
@@ -319,8 +339,8 @@ exports.leavs = (req, res, next) => {
       if (err) {
         response.status = ERROR;
         response.msg = "评论失败";
-        console.error(err);
-        res.json(response);
+        logger.error("评论失败", err);
+        return res.json(response);
       } else {
         response.status = ERR_OK;
         response.msg = "评论成功";

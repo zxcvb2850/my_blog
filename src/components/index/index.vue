@@ -38,7 +38,7 @@
             </li>
           </ul>
         </div>
-        <hot-articles></hot-articles>
+        <hot-articles @detailClick="detailClick"></hot-articles>
       </div>
     </div>
   </article>
@@ -69,6 +69,9 @@
       handleCurrentChange(val) {
         this._getArticles(val)
         console.log(`当前页: ${val}`);
+      },
+      detailClick(){
+
       },
       _getBanner(){
         axios.get("/api/banner/get").then((res) => {

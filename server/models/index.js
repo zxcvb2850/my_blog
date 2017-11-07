@@ -33,7 +33,13 @@ const articlesSchema = new Schema({
   "desc": String,
   "content": String,
   "read": Number,
-  "leavs": Array,
+  "leavs": [new Schema({
+    "name": String,
+    "email": String,
+    "content": String,
+    "time": String,
+    "avatar": String
+  })],
   "label": Array
 });
 

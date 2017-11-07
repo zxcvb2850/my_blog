@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="detail-right">
-      <hot-articles></hot-articles>
+      <hot-articles @detailClick="detailClick"></hot-articles>
     </div>
     <el-button type="text" @click="open"></el-button>
   </div>
@@ -128,8 +128,8 @@
       }, 200)
     },
     watch: {
-      $route () {
-        this._getArticle();
+      $route (){
+        this.wrapLine();
       }
     },
     methods: {
@@ -176,6 +176,11 @@
         this.$alert(this.msg, this.title, {
           confirmButtonText: '确定'
         });
+      },
+      detailClick(){
+        this._getArticle();
+        this.wrapLine();
+        this._getLeavs();
       },
       _getArticle(){
         this.articleId = this.$route.params.id;

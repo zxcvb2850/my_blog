@@ -23,7 +23,6 @@
     created(){
       setTimeout(() => {
         this._getHotArticle();
-        console.log(this.hotArticle);
       }, 200)
     },
     methods: {
@@ -48,6 +47,9 @@
             path: `/${type}/${item._id}`
           });
         }
+
+        //监听子组件的点击事件
+        this.$emit('detailClick', item);
       },
       _getHotArticle(){
         axios.get('/api/articles/hot/get')
@@ -72,7 +74,7 @@
       padding: 10px;
       border-bottom: 2px solid #42b983;
     }
-    ul{
+    ul {
       margin: 0;
       padding: 10px 0;
     }
@@ -101,10 +103,10 @@
           text-decoration: underline;
         }
       }
-      .read{
+      .read {
         float: right;
         color: @infoColor;
-        font-size:@smallFontSize;
+        font-size: @smallFontSize;
       }
     }
   }

@@ -7,7 +7,8 @@
       <div class="label">
         <a href="javascript:;" class="read"
            @click="detailedArticle(article)">阅读次数：{{article.read}}&nbsp;&nbsp;&nbsp;</a>
-        <a href="javascript:;" class="leaving">留言：{{article.leavs.length}}</a>
+        <a href="javascript:;" class="leaving">留言：{{article.leavs.length}}&nbsp;&nbsp;&nbsp;</a>
+        <a href="javascript:;" class="leaving">发表时间：{{article.time}}</a>
         <ol>
           <li class="label-item" v-for="label in article.label">
             <a href="javascript:;">{{label}}</a>
