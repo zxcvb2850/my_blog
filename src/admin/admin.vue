@@ -1,10 +1,6 @@
 <template>
-  <div id="app">
-    <!--<v-header></v-header>-->
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
-    <!--<v-footer></v-footer>-->
+  <div id="admin">
+    后端页面
   </div>
 </template>
 
@@ -13,7 +9,7 @@
   import VFooter from "components/footer/footer"
 
   export default {
-    name: 'app',
+    name: 'admin',
     watch: {          //切换路由监听滚动条
       '$route': function (to, from) {
         document.body.scrollTop = 0;

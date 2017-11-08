@@ -13,6 +13,7 @@
 
 <script>
   import axios from "axios"
+  import {pathRouter} from "common/js/util"
 
   export default {
     data(){
@@ -27,26 +28,10 @@
     },
     methods: {
       thisArticle(item){
-        let parent = item.parent;
-        let type = '';
-        if (parent === 2) {
-          switch (item.type) {
-            case 1:
-              type = 'web';
-              break;
-            case 2:
-              type = 'node';
-              break;
-            case 3:
-              type = 'vue';
-              break;
-            default:
-              type = 'web';
-          }
-          this.$router.push({
-            path: `/${type}/${item._id}`
-          });
-        }
+        let type = pathRouter(item);
+        this.$router.push({
+          path: `/index/${type}/${item._id}`
+        });
 
         //监听子组件的点击事件
         this.$emit('detailClick', item);

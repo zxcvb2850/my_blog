@@ -45,8 +45,9 @@
             default:
               type = 'web';
           }
+          console.log(type);
           this.$router.push({
-            path: `/${type}/${item._id}`
+            path: `/index/${type}/${item._id}`
           });
         }
       },

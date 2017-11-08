@@ -3,16 +3,16 @@
     <div class="wrapper">
       <div class="logo"><img src="../../assets/logo.png" alt=""></div>
       <nav class="nav">
-        <router-link class="nav-item" to="/index" tag="li"><a href="">首页</a></router-link>
-        <li class="nav-item" @click="clickItem('web')">
+        <router-link class="nav-item" to="/index" tag="li"><a href="javascript:;">首页</a></router-link>
+        <li class="nav-item" @click="clickItem('/index/web')">
           <a href="javascript:;">前端</a>
           <ul class="nav-tow">
-            <li class="item" @click.stop="clickItem('web')"><a href="">web前端</a></li>
-            <li class="item" @click.stop="clickItem('node')"><a href="">node</a></li>
-            <li class="item" @click.stop="clickItem('vue')"><a href="">vuejs</a></li>
+            <li class="item" @click="clickItem('/index/web')"><a href="javascript:;">web前端</a></li>
+            <li class="item" @click="clickItem('/index/node')"><a href="javascript:;">node</a></li>
+            <li class="item" @click="clickItem('/index/vue')"><a href="javascript:;">vuejs</a></li>
           </ul>
         </li>
-        <router-link class="nav-item" to="/message" tag="li"><a href="">留言板</a></router-link>
+        <router-link class="nav-item" to="/message" tag="li"><a href="javascript:;">留言板</a></router-link>
       </nav>
       <div class="search">
         <router-link to="/search">search</router-link>
@@ -28,6 +28,7 @@
         this.$router.push({
           path: `/${item}`
         })
+        this.$router.go(0);
       }
     }
   }

@@ -25,11 +25,34 @@
   ]
 };
 
+/************** 定义模式articlesSchema **************/
+const articlesSchema = new Schema({
+"type": Number,
+"parent": Number,
+"title": String,
+"img": String,
+"from": String,
+"time": String,
+"desc": String,
+"content": String,
+"read": Number,
+"leavs": [
+new Schema({
+"name": String,
+"email": String,
+"content": String,
+"time": String,
+"avatar": String
+})
+],
+"label": Array
+});
+
 
 {
-  "_id": "ObjectId(59eff3327cf624053f3c6126)",
-  "src": "http://img2.niutuku.com/desk/1208/1510/ntk-1510-24060.jpg",
-  "title": "标题",
-  "describe": "描述信息"
+"_id": "ObjectId(59eff3327cf624053f3c6126)",
+"src": "http://img2.niutuku.com/desk/1208/1510/ntk-1510-24060.jpg",
+"title": "标题",
+"describe": "描述信息"
 }
 

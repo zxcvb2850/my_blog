@@ -1,12 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from 'components/index/index'
+import Home from 'components/index/home'
 import Message from 'components/message/message'
 import Web from 'components/list/web/web'
 import Node from 'components/list/node/node'
 import VueArt from 'components/list/vue/vue'
 import Search from 'components/search/search'
 import Articles from 'components/articles/articles'
+
+//后端页面
+import Admin from 'admin/admin'
+import Login from 'admin/login/login'
 
 Vue.use(Router)
 
@@ -16,53 +21,79 @@ export default new Router({
   linkActiveClass: 'active',
   routes: [
     {
-      path: '/',
+      path: '',
       redirect: '/index'
     },
     {
       name: '首页',
       path: '/index',
-      component: Index
+      component: Index,
+      hidden: true,
+      children: [
+        {path: '', component: Home, meta: {auth: false}},
+        {name: 'web', path: 'web', component: Web, meta: {auth: false}},
+        {name: 'node', path: 'node', component: Node, meta: {auth: false}},
+        {name: 'vue', path: 'vue', component: VueArt, meta: {auth: false}},
+        {name: '文章详情', path: 'web/:id', component: Articles, meta: {auth: false, scrollToTop: true}},
+        {name: '文章详情', path: 'node/:id', component: Articles, meta: {auth: false, scrollToTop: true}},
+        {name: '文章详情', path: 'vue/:id', component: Articles, meta: {auth: false, scrollToTop: true}}
+      ]
     },
     {
-      name: '留言板',
-      path: '/message',
-      component: Message
-    },
-    {
-      name: 'web',
-      path: '/web',
-      component: Web,
-    },
-    {
-      name: 'node',
-      path: '/node',
-      component: Node,
-    },
-    {
-      name: 'vue',
-      path: '/vue',
-      component: VueArt,
-    },
-    {
-      name: '搜索',
-      path: '/search',
-      component: Search
-    },
-    {
-      name: '文章详情',
-      path: '/web/:id',
-      component: Articles
-    },
-    {
-      name: '文章详情',
-      path: '/node/:id',
-      component: Articles
-    },
-    {
-      name: '文章详情',
-      path: '/vue/:id',
-      component: Articles
+      name: '后端页面', path: '/admin', component: Admin,
+      children: [
+        {name: '登录页面', path: 'login', component: Login, meta: {auth: false}},
+      ]
     }
+    /*{
+     name: '首页',
+     path: '/index',
+     component: Index
+     },
+     {
+     name: '留言板',
+     path: '/message',
+     component: Message
+     },
+     {
+     name: 'web',
+     path: '/web',
+     component: Web,
+     },
+     {
+     name: 'node',
+     path: '/node',
+     component: Node,
+     },
+     {
+     name: 'vue',
+     path: '/vue',
+     component: VueArt,
+     },
+     {
+     name: '搜索',
+     path: '/search',
+     component: Search
+     },
+     {
+     name: '文章详情',
+     path: '/web/:id',
+     component: Articles
+     },
+     {
+     name: '文章详情',
+     path: '/node/:id',
+     component: Articles
+     },
+     {
+     name: '文章详情',
+     path: '/vue/:id',
+     component: Articles
+     },
+     {
+     name: '后端页面',
+     path: '/admin',
+     component: Admin
+     }*/
   ]
 })

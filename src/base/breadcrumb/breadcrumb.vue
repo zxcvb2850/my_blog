@@ -27,13 +27,13 @@
       getBreadcrumb (){
         let pathRouter = this.$route.path;
         let router = pathRouter.split('/');
-        let abc = '';
-        for (let i = 0; i < router.length; i++) {
-          let str = `"title":"${router[i]}","path":"/${router[i]}"`;
-          abc += `{${str}},`;
+        let pathArr = '';
+        for (let i = 1; i < router.length; i++) {
+          let str = `"title":"${router[i]}","path":"/${router[i - 1]}/${router[i]}"`;
+          pathArr += `{${str}},`;
         }
-        let a = `[${abc.substr(0, abc.length - 1)}]`;
-        this.breadList = JSON.parse(a);
+        let pathJson = `[${pathArr.substr(0, pathArr.length - 1)}]`;
+        this.breadList = JSON.parse(pathJson);
         this.breadList[0].title = "首页";
         this.breadList[0].path = "/index";
         this.breadList[this.breadList.length - 1].title = this.$route.name;
