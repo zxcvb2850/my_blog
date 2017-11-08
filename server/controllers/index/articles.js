@@ -1,11 +1,10 @@
 /**
  * Created by wang on 2017/10/25.
  */
-const models = require('../models/index');
+const models = require('../../models/index');
 const log4js = require('log4js');
-var path = require("path")
-const util = require('../public/javascripts/util');
-const common = require('../public/javascripts/common');
+const util = require('../../public/javascripts/util');
+const common = require('../../public/javascripts/common');
 
 log4js.configure(
   {

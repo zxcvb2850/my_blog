@@ -2,7 +2,7 @@
  * Created by wang on 2017/10/25.
  */
 
-const models = require('../models/index');
+const models = require('../../models/index');
 
 const ERR_OK = 200;
 const ERROR = 100;

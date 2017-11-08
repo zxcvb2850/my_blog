@@ -40,60 +40,14 @@ export default new Router({
       ]
     },
     {
-      name: '后端页面', path: '/admin', component: Admin,
-      children: [
-        {name: '登录页面', path: 'login', component: Login, meta: {auth: false}},
-      ]
+      name: '后端页面',
+      path: '/admin',
+      component: Admin
+    },
+    {
+      name: '登录页面',
+      path: '/admin/login',
+      component: Login
     }
-    /*{
-     name: '首页',
-     path: '/index',
-     component: Index
-     },
-     {
-     name: '留言板',
-     path: '/message',
-     component: Message
-     },
-     {
-     name: 'web',
-     path: '/web',
-     component: Web,
-     },
-     {
-     name: 'node',
-     path: '/node',
-     component: Node,
-     },
-     {
-     name: 'vue',
-     path: '/vue',
-     component: VueArt,
-     },
-     {
-     name: '搜索',
-     path: '/search',
-     component: Search
-     },
-     {
-     name: '文章详情',
-     path: '/web/:id',
-     component: Articles
-     },
-     {
-     name: '文章详情',
-     path: '/node/:id',
-     component: Articles
-     },
-     {
-     name: '文章详情',
-     path: '/vue/:id',
-     component: Articles
-     },
-     {
-     name: '后端页面',
-     path: '/admin',
-     component: Admin
-     }*/
   ]
 })

@@ -6,3 +6,4 @@
 [2017-11-08 10:07:17.606] [ERROR] app - 此用户名已使用，请跟换
 [2017-11-08 14:43:37.866] [ERROR] app - 增加阅读失败CastError: Cast to ObjectId failed for value "undefined" at path "_id" for model "index_articles"
 [2017-11-08 14:50:54.320] [ERROR] app - 增加阅读失败CastError: Cast to ObjectId failed for value "undefined" at path "_id" for model "index_articles"
+[2017-11-08 16:00:39.760] [ERROR] app - 此用户名已使用，请跟换

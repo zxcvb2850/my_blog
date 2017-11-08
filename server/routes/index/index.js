@@ -4,8 +4,8 @@
 
 const express = require('express');
 const router = express.Router();
-const banners = require('../../controllers/banner');
-const articles = require('../../controllers/articles');
+const banners = require('../../controllers/index/banner');
+const articles = require('../../controllers/index/articles');
 
 /* 获取banner数据 */
 router.get('/banner/get', banners.get);
