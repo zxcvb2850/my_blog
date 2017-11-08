@@ -4,17 +4,6 @@
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-mongoose.connect('mongodb://localhost/my_blog');
-
-mongoose.connection.on("connected", () => {
-  console.log("MongoDB connected success.")
-});
-mongoose.connection.on("error", () => {
-  console.log("MongoDB connected fail.")
-});
-mongoose.connection.on("disconnected", () => {
-  console.log("MongoDB connected disconnected.")
-});
 
 /************** 定义模式bannerSchema **************/
 const bannerSchema = new Schema({
