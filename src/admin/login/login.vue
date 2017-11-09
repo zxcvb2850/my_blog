@@ -25,8 +25,10 @@
 </template>
 
 <script>
+  import axios from "axios"
+
   export default {
-    data(){
+    data() {
       let validateUser = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入用户名'));
@@ -57,18 +59,26 @@
         showLogin: false,
       }
     },
-    mounted(){
+    mounted() {
       this.showLogin = true;
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log('submit!');
-            this.$message({
-              message: '恭喜你，登录成功',
-              type: 'success'
-            });
+            axios.post('/api/login', this.loginForm)
+              .then((res) => {
+                res = res.data;
+                if (res.status === -1) {
+                  this.$message({message: res.msg, type: 'error'});
+                } else {
+                  this.$message({message: res.msg, type: 'success'});
+                }
+              })
+              .catch((err) => {
+                console.log("用户获取失败");
+                console.log(err)
+              })
           } else {
             this.$message({
               message: '登录失败',

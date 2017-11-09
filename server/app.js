@@ -18,9 +18,9 @@ mongoose.connection.on("disconnected", () => {
   console.log("MongoDB connected disconnected.")
 });
 
-var index = require('./routes/admin/index');
-var users = require('./routes/admin/users');
-const api = require('./routes/index/index');
+//var index = require('./routes/admin/index');
+const users = require('./routes/admin/users');
+const index = require('./routes/index/index');
 
 var app = express();
 
@@ -45,9 +45,10 @@ app.use(express.static(path.join(__dirname, 'public')));
  })
  */
 
-app.use(api);
-app.use('/', index);
-app.use('/users', users);
+app.use(index);
+app.use(users);
+/*app.use('/', index);
+app.use('/', users);*/
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
