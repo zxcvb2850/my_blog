@@ -28,7 +28,7 @@ exports.login = (req, res, next) => {
       let pwd = data[0].password;
       if (password !== pwd) {
         response.status = ERROR;
-        response.msg = "密码错误";
+        response.msg = "账号或密码错误";
         logger.error(response);
         return res.json(response);
       } else {

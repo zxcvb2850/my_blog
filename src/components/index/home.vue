@@ -34,7 +34,9 @@
           <h4 class="new-title">热门标签</h4>
           <ul class="label">
             <li class="label-item" v-for="label in labels">
-              <a class="text" href="javascript:;">{{label}}</a>
+              <a class="text" href="javascript:;">
+                <el-tag size="medium">{{label}}</el-tag>
+              </a>
             </li>
           </ul>
         </div>
@@ -205,21 +207,10 @@
           display: inline-block;
           margin: 4px 6px;
           font-size: 0;
-          .text {
-            display: block;
-            padding: 6px 10px;
-            border: 1px solid #888;
-            font-size: @smallFontSize;
-            color: #888;
-            &.hot {
-              border: 1px solid @hotColor;
-              color: @hotColor;
-            }
-          }
           &:hover {
-            .text {
-              background-color: #282828;
-              color: @snowColor;
+            color: @snowColor;
+            span{
+              color: red;
             }
           }
         }

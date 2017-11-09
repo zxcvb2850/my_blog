@@ -7,7 +7,7 @@
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm">
           <el-form-item prop="username">
-            <el-input v-model="loginForm.username" placeholder="用户名"><span>dsfsf</span></el-input>
+            <el-input v-model="loginForm.username" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input type="password" placeholder="密码" v-model="loginForm.password"></el-input>
@@ -16,9 +16,7 @@
             <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
           </el-form-item>
         </el-form>
-        <p class="tip">温馨提示：</p>
-        <p class="tip">未登录过的新用户，自动注册</p>
-        <p class="tip">注册过的用户可凭账号密码登录</p>
+        <p class="tip">{{tip}}</p>
       </section>
     </transition>
   </div>
@@ -48,6 +46,7 @@
           username: '',
           password: '',
         },
+        tip: '',       //登录提示信息
         rules: {
           username: [
             {validator: validateUser, trigger: 'blur'}
@@ -71,6 +70,10 @@
                 res = res.data;
                 if (res.status === -1) {
                   this.$message({message: res.msg, type: 'error'});
+                  this.rules.username.validate(() => {
+                    return false
+                  })
+                  //this.validateUser(false)
                 } else {
                   this.$message({message: res.msg, type: 'success'});
                 }
@@ -113,7 +116,7 @@
 
     .form_contianer {
       width: 320px;
-      height: 210px;
+      /*height: 210px;*/
       position: absolute;
       top: 50%;
       left: 50%;

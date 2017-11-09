@@ -11,7 +11,9 @@
         <a href="javascript:;" class="leaving">发表时间：{{article.time}}</a>
         <ol>
           <li class="label-item" v-for="label in article.label">
-            <a href="javascript:;">{{label}}</a>
+            <a href="javascript:;">
+              <el-tag type="danger">{{label}}</el-tag>
+            </a>
           </li>
         </ol>
       </div>
@@ -119,11 +121,11 @@
         display: inline-block;
         margin: 2px;
         padding: 0 6px;
-        background-color: @labelBackground;
+        //background-color: @labelBackground;
         .transition(all, 0.35s);
         &:hover {
           transform: rotate(360deg);
-          background-color: @labelHoverBackground;
+          //background-color: @labelHoverBackground;
         }
         a {
           display: block;
