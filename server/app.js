@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var fs = require('fs');
 var mongoose = require('mongoose');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
@@ -24,6 +25,11 @@ const index = require('./routes/index/index');
 
 var app = express();
 
+app.use(index);
+app.use(users);
+/*app.use('/', index);
+ app.use('/', users);*/
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -35,20 +41,16 @@ log4js.use(app);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-//访问静态资源文件 这里是访问所有dist目录下的静态资源文件
-/*
- app.use(express.static(path.resolve(__dirname, '../dist')));
- app.get('*', (req, res) => {
- const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8');
- res.send(html);
- })
- */
+//app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(index);
-app.use(users);
-/*app.use('/', index);
-app.use('/', users);*/
+//访问静态资源文件 这里是访问所有dist目录下的静态资源文件
+const resolve = file => path.resolve(__dirname, file)
+app.use('/dist', express.static(resolve('./dist')))
+app.use(express.static(path.resolve(__dirname, '../dist')));
+app.get('*', function (req, res) {
+  let html = fs.readFileSync('./dist/index.html', 'utf-8')
+  res.send(html)
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
