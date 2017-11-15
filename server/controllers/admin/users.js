@@ -33,10 +33,8 @@ exports.login = (req, res, next) => {
         logger.error(response);
         return res.json(response);
       } else {
-        res.cookie("user", "admin", {
-          path: "/admin",
-          maxAge: 30 * 24 * 3600 * 1000
-        });
+        req.session.user = {username, password};
+        logger.info(req.session)
         response.status = ERR_OK;
         response.msg = "登陆成功,2s自动跳转";
         logger.error(response);

@@ -35,11 +35,11 @@
       },
       _getCookie(){
         console.log(document.cookie.user);
-        let cookie = document.cookie;
+        /*let cookie = document.cookie;
         if (!cookie) {
           this.$router.push('/admin/login');
           return;
-        }
+        }*/
         /*axios.get('/api/admin/cookie')
          .then((res) => {
          res = res.data;

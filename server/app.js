@@ -26,10 +26,12 @@ const index = require('./routes/index/index');
 var app = express();
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: 'keyboard cat',
+  name: 'blog',
+  secret: 'xiaobai',
+  path: '/admin',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
+  cookie: {maxAge: 6000}
 }))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,6 +50,18 @@ app.use(cookieParser());
 app.use('/blog', index);
 app.use('/blog', admin);
 // app.use('/', users);
+app.use('/admin', function (req, res, next) {
+  console.log(req.session.user)
+  if (!req.session.user) {
+    if (req.url === "/admin/login") {
+      next();//如果请求的地址是登录则通过，进行下一个请求
+    } else {
+      res.redirect('/admin/login');
+    }
+  } else if (req.session.user) {
+    next();
+  }
+});
 
 
 //访问静态资源文件 这里是访问所有dist目录下的静态资源文件
