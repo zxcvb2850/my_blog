@@ -6,26 +6,28 @@ const users = require('../../controllers/admin/users');
 /*router.get('/', function(req, res, next) {
  res.redirect('/admin');
  });*/
-
 const ERR_OK = 200;
 const ERROR = -1;
 
 router.get('/admin/cookie', function (req, res, next) {
   let session = req.cookies;
-  console.log("--------");
+  let response = {};
   console.log(session);
-  console.log("--------");
-  if (!session) {
-    return res.json({
+  if (!session.user) {
+    response = {
       status: ERROR,
       msg: '无记录'
-    })
+    }
+    return res.json(response)
+  } else {
+    response = {
+      status: ERR_OK,
+      msg: '已登录',
+      data: session
+    }
+    res.json(response);
+    next();
   }
-  return res.json({
-    status: ERR_OK,
-    msg: '已登录',
-    data: session
-  });
 });
 
 /* 验证用户名密码*/

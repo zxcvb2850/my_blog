@@ -65,13 +65,16 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            axios.post('/admin/login', this.loginForm)
+            axios.post('/blog/admin/login', this.loginForm)
               .then((res) => {
                 res = res.data;
                 if (res.status === -1) {
-                  this.$message({message: res.msg, type: 'error'});
+                  return this.$message({message: res.msg, type: 'error'});
                 } else {
                   this.$message({message: res.msg, type: 'success'});
+                  setTimeout(() => {
+                    this.$router.push('/admin');
+                  }, 2000)
                 }
               })
               .catch((err) => {

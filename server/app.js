@@ -1,11 +1,12 @@
-var express = require('express');
-var path = require('path');
-var fs = require('fs');
-var mongoose = require('mongoose');
-var favicon = require('serve-favicon');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var log4js = require('./logs/log');
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const mongoose = require('mongoose');
+const favicon = require('serve-favicon');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const log4js = require('./logs/log');
 
 mongoose.connect('mongodb://localhost/my_blog');
 
@@ -23,7 +24,13 @@ const admin = require('./routes/admin/index');
 const index = require('./routes/index/index');
 
 var app = express();
-
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -38,9 +45,10 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
 /*获取数据*/
-app.use(index);
-app.use(admin);
+app.use('/blog', index);
+app.use('/blog', admin);
 // app.use('/', users);
+
 
 //访问静态资源文件 这里是访问所有dist目录下的静态资源文件
 const resolve = file => path.resolve(__dirname, file)

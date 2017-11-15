@@ -41,10 +41,6 @@ exports.login = (req, res, next) => {
         response.msg = "登陆成功,2s自动跳转";
         logger.error(response);
         res.json(response);
-
-        setTimeout(() => {
-          res.render("/admin", {username: username});
-        }, 2000)
       }
     }
   })

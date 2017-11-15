@@ -37,7 +37,7 @@
         this.$emit('detailClick', item);
       },
       _getHotArticle(){
-        axios.get('/articles/hot/get')
+        axios.get('/blog/articles/hot/get')
           .then((res) => {
             res = res.data;
             this.hotArticle = res.data;

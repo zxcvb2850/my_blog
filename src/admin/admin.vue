@@ -2,19 +2,56 @@
   <div id="admin">
     后端页面
     <router-view></router-view>
+    <el-button type="text" @click="open"></el-button>
   </div>
 </template>
 
 <script>
+  import axios from "axios"
   import VHeader from "components/header/header"
   import VFooter from "components/footer/footer"
 
   export default {
     name: 'admin',
+    data(){
+      return {
+        msg: ''
+      };
+    },
     watch: {          //切换路由监听滚动条
       '$route': function (to, from) {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+      }
+    },
+    mounted(){
+      this._getCookie();
+    },
+    methods: {
+      open(msg, title) {
+        this.$alert(msg, title, {
+          confirmButtonText: '确定'
+        });
+      },
+      _getCookie(){
+        console.log(document.cookie.user);
+        let cookie = document.cookie;
+        if (!cookie) {
+          this.$router.push('/admin/login');
+          return;
+        }
+        /*axios.get('/api/admin/cookie')
+         .then((res) => {
+         res = res.data;
+         if (res.status === -1) {
+         this.$router.push('/admin/login');
+         return;
+         }
+         })
+         .catch((err) => {
+         this.open(err + "服务器错误,请联系管理员，谢谢", "服务器错误");
+         return;
+         })*/
       }
     },
     components: {

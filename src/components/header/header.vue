@@ -4,12 +4,12 @@
       <div class="logo"><img src="../../assets/logo.png" alt=""></div>
       <nav class="nav">
         <router-link class="nav-item" to="/index" tag="li"><a href="javascript:;">首页</a></router-link>
-        <li class="nav-item" @click="clickItem('/index/web')">
+        <li class="nav-item">
           <a href="javascript:;">前端</a>
           <ul class="nav-tow">
-            <li class="item" @click="clickItem('/index/web')"><a href="javascript:;">web前端</a></li>
-            <li class="item" @click="clickItem('/index/node')"><a href="javascript:;">node</a></li>
-            <li class="item" @click="clickItem('/index/vue')"><a href="javascript:;">vuejs</a></li>
+            <router-link class="item" to="/index/web" tag="li"><a href="javascript:;">web前端</a></router-link>
+            <router-link class="item" to="/index/node" tag="li"><a href="javascript:;">node</a></router-link>
+            <router-link class="item" to="/index/vue" tag="li"><a href="javascript:;">vuejs</a></router-link>
           </ul>
         </li>
         <router-link class="nav-item" to="/message" tag="li"><a href="javascript:;">留言板</a></router-link>
@@ -22,16 +22,8 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      clickItem(item){
-        this.$router.push({
-          path: `/${item}`
-        })
-        this.$router.go(0);
-      }
-    }
-  }
+
+  export default {}
 </script>
 
 <style lang="less" scoped>

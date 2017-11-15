@@ -1,7 +1,6 @@
 /**
- * Created by wang on 2017/10/26.
+ * Created by wang on 2017/11/15.
  */
-
 //识别换行符
 export function wrapLine(val) {
   return val.replace(/[\n]/g, "<br/>");

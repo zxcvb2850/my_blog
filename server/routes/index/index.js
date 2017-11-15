@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const banners = require('../../controllers/index/banner');
 const articles = require('../../controllers/index/articles');
+console.log(1234)
 
 /* 获取banner数据 */
 router.get('/banner/get', banners.get);
