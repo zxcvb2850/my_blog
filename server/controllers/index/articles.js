@@ -14,6 +14,7 @@ const ERROR = -1;
  * */
 exports.get = function (req, res, next) {
   let type = req.query.type || '';
+  logger.error(type);
   let page = parseInt(req.query.page) || '';
   let rows = parseInt(req.query.rows) || 10;
   let start = (page - 1) * rows;

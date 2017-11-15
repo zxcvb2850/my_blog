@@ -65,15 +65,11 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            axios.post('/api/login', this.loginForm)
+            axios.post('/admin/login', this.loginForm)
               .then((res) => {
                 res = res.data;
                 if (res.status === -1) {
                   this.$message({message: res.msg, type: 'error'});
-                  this.rules.username.validate(() => {
-                    return false
-                  })
-                  //this.validateUser(false)
                 } else {
                   this.$message({message: res.msg, type: 'success'});
                 }

@@ -8,6 +8,7 @@ const ERR_OK = 200;
 const ERROR = -1;
 
 exports.login = (req, res, next) => {
+  logger.error(req.body);
   let username = req.body.username,
     password = req.body.password;
   logger.error(username, password);
@@ -32,10 +33,18 @@ exports.login = (req, res, next) => {
         logger.error(response);
         return res.json(response);
       } else {
+        res.cookie("user", "admin", {
+          path: "/admin",
+          maxAge: 30 * 24 * 3600 * 1000
+        });
         response.status = ERR_OK;
-        response.msg = "登陆成功";
+        response.msg = "登陆成功,2s自动跳转";
         logger.error(response);
         res.json(response);
+
+        setTimeout(() => {
+          res.render("/admin", {username: username});
+        }, 2000)
       }
     }
   })

@@ -142,7 +142,7 @@
               email: this.ruleForm2.email,
               center: this.ruleForm2.center
             }
-            axios.post('/api/article/leavs', post)
+            axios.post('/article/leavs', post)
               .then((res) => {
                 if (res.data.status === -1) {
                   this.msg = res.data.msg
@@ -184,7 +184,7 @@
       },
       _getArticle(){
         this.articleId = this.$route.params.id;
-        axios.get(`/api/article/detail?id=${this.articleId}`)
+        axios.get(`/article/detail?id=${this.articleId}`)
           .then((res) => {
             res = res.data;
             if (res.status === 200) {
@@ -199,7 +199,7 @@
           })
       },
       _getLeavs(){
-        axios.get(`/api/article/leavs/get?id=${this.articleId}`)
+        axios.get(`/article/leavs/get?id=${this.articleId}`)
           .then((res) => {
             res = res.data;
             if (res.status === 200) {
@@ -217,7 +217,7 @@
           })
       },
       _getHotArticle(){
-        axios.get('/api/articles/hot/get')
+        axios.get('/articles/hot/get')
           .then((res) => {
             res = res.data;
             this.hotArticle = res.data;

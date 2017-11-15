@@ -77,7 +77,7 @@
 
       },
       _getBanner(){
-        axios.get("/api/banner/get").then((res) => {
+        axios.get("/banner/get").then((res) => {
           res = res.data;
           if (res.status === 200) {
             this.banners = res.data;
@@ -88,7 +88,7 @@
         })
       },
       _getArticles(page = 1){
-        axios.get(`/api/articles/get?page=${page}&rows=${this.pageSize}`).then((res) => {
+        axios.get(`/articles/get?page=${page}&rows=${this.pageSize}`).then((res) => {
           res = res.data;
           if (res.status === 200) {
             this.count = res.count;
@@ -100,7 +100,7 @@
         })
       },
       _getLabels(){
-        axios.get("/api/label").then((res) => {
+        axios.get("/label").then((res) => {
           res = res.data;
           if (res.status === 200) {
             let label = res.data;

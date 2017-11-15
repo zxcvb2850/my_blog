@@ -23,7 +23,7 @@
     },
     methods: {
       _getArticles(){
-        axios.get("/api/articles/get?type=1").then((res) => {
+        axios.get("/articles/get?type=1").then((res) => {
           res = res.data;
           if (res.status === 200) {
             this.webArticles = res.data;

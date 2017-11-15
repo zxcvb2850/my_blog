@@ -19,16 +19,10 @@ mongoose.connection.on("disconnected", () => {
   console.log("MongoDB connected disconnected.")
 });
 
-//var index = require('./routes/admin/index');
-const users = require('./routes/admin/users');
+const admin = require('./routes/admin/index');
 const index = require('./routes/index/index');
 
 var app = express();
-
-app.use(index);
-app.use(users);
-/*app.use('/', index);
- app.use('/', users);*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,7 +35,12 @@ log4js.use(app);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+
+/*获取数据*/
+app.use(index);
+app.use(admin);
+// app.use('/', users);
 
 //访问静态资源文件 这里是访问所有dist目录下的静态资源文件
 const resolve = file => path.resolve(__dirname, file)
