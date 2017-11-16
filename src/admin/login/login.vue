@@ -24,6 +24,7 @@
 
 <script>
   import axios from "axios"
+  import {setCookie, getCookie, clearCookie} from "common/js/util"
 
   export default {
     data() {
@@ -61,6 +62,9 @@
     mounted() {
       this.showLogin = true;
     },
+    created(){
+      this.checkCookie();
+    },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -71,6 +75,8 @@
                 if (res.status === -1) {
                   return this.$message({message: res.msg, type: 'error'});
                 } else {
+                  setCookie('user', this.loginForm.username, 3600 * 1000);
+                  setCookie('check', this.loginForm.password, 3600 * 1000);
                   this.$message({message: res.msg, type: 'success'});
                   setTimeout(() => {
                     this.$router.push('/admin');
@@ -88,19 +94,31 @@
             });
           }
         });
+      },
+      checkCookie: function () {
+        let user = getCookie("user");
+        let pwd = getCookie("check");
+        if (user !== "") {
+          this.$message({message: '欢迎再次登陆' + user, type: 'info'});
+          axios.post('/blog/admin/login', {username: user, password: pwd})
+            .then((res) => {
+              res = res.data;
+              if (res.status === -1) {
+                return this.$message({message: res.msg, type: 'error'});
+              } else {
+                this.$message({message: res.msg, type: 'success'});
+                setTimeout(() => {
+                  this.$router.push('/admin');
+                }, 2000)
+              }
+            })
+            .catch((err) => {
+              console.log("用户获取失败");
+              console.log(err)
+            })
+        }
       }
-    },
-    /*watch: {
-     adminInfo: function (newValue) {
-     if (newValue.id) {
-     this.$message({
-     type: 'success',
-     message: '检测到您之前登录过，将自动登录'
-     });
-     this.$router.push('manage')
-     }
-     }
-     }*/
+    }
   }
 </script>
 

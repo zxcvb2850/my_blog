@@ -10,10 +10,10 @@ const ERR_OK = 200;
 const ERROR = -1;
 
 router.get('/admin/cookie', function (req, res, next) {
-  let session = req.cookies;
+  let cookies = req.cookies;
   let response = {};
-  console.log(session);
-  if (!session.user) {
+  console.log(cookies);
+  if (!cookies.user) {
     response = {
       status: ERROR,
       msg: '无记录'
@@ -23,7 +23,7 @@ router.get('/admin/cookie', function (req, res, next) {
     response = {
       status: ERR_OK,
       msg: '已登录',
-      data: session
+      data: cookies
     }
     res.json(response);
     next();

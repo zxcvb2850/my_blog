@@ -33,8 +33,6 @@ exports.login = (req, res, next) => {
         logger.error(response);
         return res.json(response);
       } else {
-        req.session.user = {username, password};
-        logger.info(req.session)
         response.status = ERR_OK;
         response.msg = "登陆成功,2s自动跳转";
         logger.error(response);
