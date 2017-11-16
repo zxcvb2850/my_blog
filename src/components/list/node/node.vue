@@ -46,7 +46,7 @@
 
   .itemize {
     display: flex;
-    margin: 20px auto;
+    margin: 0 auto;
     max-width: @pageWidth;
   }
 

@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="wrapper">
+    <!--<div class="wrapper">
       <div class="logo"><img src="../../assets/logo.png" alt=""></div>
       <nav class="nav">
         <router-link class="nav-item" to="/index" tag="li"><a href="javascript:;">首页</a></router-link>
@@ -17,13 +17,31 @@
       <div class="search">
         <router-link to="/search">search</router-link>
       </div>
-    </div>
+    </div>-->
+
+    <el-menu default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect" router="true">
+      <el-menu-item><a href="javascript:;" index="/index"><img src="../../assets/logo.png" alt=""></a></el-menu-item>
+      <el-menu-item index="/index">首页</el-menu-item>
+      <el-submenu index="2">
+        <template slot="title">文章类型</template>
+        <el-menu-item index="/index/web">web前端</el-menu-item>
+        <el-menu-item index="/index/node">node</el-menu-item>
+        <el-menu-item index="/index/vue">vue</el-menu-item>
+      </el-submenu>
+      <el-menu-item index="3">留言板</el-menu-item>
+    </el-menu>
   </header>
 </template>
 
 <script>
 
-  export default {}
+  export default {
+    data() {
+      return {
+        activeIndex: 1
+      }
+    }
+  }
 </script>
 
 <style lang="less" scoped>
@@ -31,7 +49,7 @@
 
   header {
     margin: 0;
-    padding: 0 0 6px 0;
+    padding: 0;
     background: #ffffff;
     .border-1px(@borderColor);
     .wrapper {

@@ -1,30 +1,31 @@
 <template>
   <div class="crumbs">
-    <ul>
-      <router-link tag="li" v-for="item in breadList" :key="item._id" :to="{ path: item.path }">
+    <el-breadcrumb separator-class="el-icon-arrow-right breadcurmb-wrapper">
+      <router-link tag="el-breadcrumb-item" class="breadcurmb" v-for="item in breadList" :key="item._id"
+                   :to="{ path: item.path }">
         <a href="javascript:;">{{item.title}}</a>
       </router-link>
-    </ul>
+    </el-breadcrumb>
   </div>
 </template>
 
 <script>
-  export default{
-    data(){
+  export default {
+    data() {
       return {
         breadList: {} // 路由集合
       }
     },
     watch: {
-      $route () {
+      $route() {
         this.getBreadcrumb();
       }
     },
-    created(){
+    created() {
       this.getBreadcrumb();
     },
     methods: {
-      getBreadcrumb (){
+      getBreadcrumb() {
         let pathRouter = this.$route.path;
         let router = pathRouter.split('/');
         let pathArr = '';
@@ -49,9 +50,12 @@
 
   .crumbs {
     overflow: hidden;
-    ul {
+    .el-breadcrumb {
       list-style: none;
-      li {
+      margin: 30px 0 0 30px;
+    }
+    .breadcurmb-wrapper {
+      .breadcurmb {
         &:first-child a {
           border-top-left-radius: 10px;
           border-bottom-left-radius: 10px;

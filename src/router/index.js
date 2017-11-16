@@ -12,7 +12,7 @@ import Articles from 'components/articles/articles'
 //后端页面
 import Admin from 'admin/admin'
 import Login from 'admin/login/login'
-import articleList from 'admin/articleList/articleList'
+//import articleList from 'admin/articleList/articleList'
 
 Vue.use(Router)
 
@@ -31,11 +31,11 @@ export default new Router({
       component: Index,
       hidden: true,
       children: [
-        {path: '', component: Home, meta: {auth: false}},
-        {name: 'web', path: 'web', component: Web, meta: {auth: false}},
-        {name: 'node', path: 'node', component: Node, meta: {auth: false}},
-        {name: 'vue', path: 'vue', component: VueArt, meta: {auth: false}},
-        {name: '文章详情', path: 'web/:id', component: Articles, meta: {auth: false, scrollToTop: true}},
+        {path: '', component: Home, meta: ['首页']},
+        {name: 'web', path: 'web', component: Web, meta: ['web']},
+        {name: 'node', path: 'node', component: Node, meta: ['node']},
+        {name: 'vue', path: 'vue', component: VueArt, meta: ['vue']},
+        {name: '文章详情', path: 'web/:id', component: Articles, meta: ['文章详情']},
         {name: '文章详情', path: 'node/:id', component: Articles, meta: {auth: false, scrollToTop: true}},
         {name: '文章详情', path: 'vue/:id', component: Articles, meta: {auth: false, scrollToTop: true}}
       ]
@@ -44,9 +44,9 @@ export default new Router({
       name: '后端页面',
       path: '/admin',
       component: Admin,
-      children: [
+      /*children: [
         {name: '文章列表', path: 'list', component: articleList, meta: ['文章列表'],}
-      ]
+      ]*/
     },
     {
       name: '登录页面',
