@@ -75,6 +75,7 @@
                 if (res.status === -1) {
                   return this.$message({message: res.msg, type: 'error'});
                 } else {
+                  console.log(this.loginForm.username);
                   setCookie('user', this.loginForm.username, 3600 * 1000);
                   setCookie('check', this.loginForm.password, 3600 * 1000);
                   this.$message({message: res.msg, type: 'success'});

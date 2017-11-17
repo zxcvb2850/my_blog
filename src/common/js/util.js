@@ -45,7 +45,7 @@ export function pathRouter(item) {
 export function setCookie(cname, cvalue, time) {
   let d = new Date();
   d.setTime(d.getTime() + (time));
-  let expires = "expires=" + d.toUTCString();
+  window.document.cookie = cname + "=" + cvalue + ";path=/;expires=" + d.toGMTString();
 }
 
 //获取cookie

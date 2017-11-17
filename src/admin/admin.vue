@@ -150,7 +150,7 @@
       position: absolute;
       overflow: hidden;
       right: 0;
-      background-color: #eff2f7;
+      background-color: #dae4f7;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
