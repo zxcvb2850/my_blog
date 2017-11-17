@@ -81,6 +81,7 @@
                   this.$message({message: res.msg, type: 'success'});
                   setTimeout(() => {
                     this.$router.push('/admin');
+                    this.$router.go(0);
                   }, 2000)
                 }
               })

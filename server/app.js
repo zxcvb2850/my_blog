@@ -35,7 +35,7 @@ log4js.use(app);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 /*获取数据*/
 app.use('/blog', index);

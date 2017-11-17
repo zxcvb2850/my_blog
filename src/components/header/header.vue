@@ -1,26 +1,7 @@
 <template>
   <header>
-    <!--<div class="wrapper">
-      <div class="logo"><img src="../../assets/logo.png" alt=""></div>
-      <nav class="nav">
-        <router-link class="nav-item" to="/index" tag="li"><a href="javascript:;">首页</a></router-link>
-        <li class="nav-item">
-          <a href="javascript:;">前端</a>
-          <ul class="nav-tow">
-            <router-link class="item" to="/index/web" tag="li"><a href="javascript:;">web前端</a></router-link>
-            <router-link class="item" to="/index/node" tag="li"><a href="javascript:;">node</a></router-link>
-            <router-link class="item" to="/index/vue" tag="li"><a href="javascript:;">vuejs</a></router-link>
-          </ul>
-        </li>
-        <router-link class="nav-item" to="/message" tag="li"><a href="javascript:;">留言板</a></router-link>
-      </nav>
-      <div class="search">
-        <router-link to="/search">search</router-link>
-      </div>
-    </div>-->
-
-    <el-menu default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect" router="true">
-      <el-menu-item><a href="javascript:;" index="/index"><img src="../../assets/logo.png" alt=""></a></el-menu-item>
+    <el-menu default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect" router>
+      <!--<el-menu-item><a href="javascript:;"><img src="../../assets/logo.png" alt=""></a></el-menu-item>-->
       <el-menu-item index="/index">首页</el-menu-item>
       <el-submenu index="2">
         <template slot="title">文章类型</template>
@@ -39,6 +20,11 @@
     data() {
       return {
         activeIndex: 1
+      }
+    },
+    methods: {
+      handleSelect(){
+        console.log(123)
       }
     }
   }

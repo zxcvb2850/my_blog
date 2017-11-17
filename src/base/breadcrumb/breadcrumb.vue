@@ -1,10 +1,9 @@
 <template>
   <div class="crumbs">
     <el-breadcrumb separator-class="el-icon-arrow-right breadcurmb-wrapper">
-      <router-link tag="el-breadcrumb-item" class="breadcurmb" v-for="item in breadList" :key="item._id"
-                   :to="{ path: item.path }">
-        <a href="javascript:;">{{item.title}}</a>
-      </router-link>
+      <el-breadcrumb-item class="breadcurmb" :to="{ path: item.path }" v-for="item in breadList" :key="item._id">
+        {{item.title}}
+      </el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>
@@ -54,72 +53,70 @@
       list-style: none;
       margin: 30px 0 0 30px;
     }
-    .breadcurmb-wrapper {
-      .breadcurmb {
-        &:first-child a {
-          border-top-left-radius: 10px;
-          border-bottom-left-radius: 10px;
-        }
-        &:last-child a {
-          pointer-events: none; //禁止点击
-        }
+    .breadcurmb {
+      &:first-child a {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+      &:last-child {
+        pointer-events: none; //禁止点击
+      }
 
-        &:first-child a:before {
-          display: none;
-        }
+      &:first-child a:before {
+        display: none;
+      }
 
-        &:last-child a {
-          border-top-right-radius: 10px;
-          border-bottom-right-radius: 10px;
-        }
+      &:last-child a {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
 
-        &:last-child a:after {
-          display: none;
+      &:last-child a:after {
+        display: none;
+      }
+      a {
+        float: left;
+        margin-right: 22px;
+        display: inline-block;
+        position: relative;
+        height: 26px;
+        line-height: 26px;
+        padding: 4px 8px 4px 8px;
+        text-align: center;
+        background-color: #3498db;
+        color: #fff;
+        text-decoration: none;
+        font-size: @smallFontSize;
+        &:after {
+          content: "";
+          border-left: @borderHeight solid green;
+          border-top: @borderHeight solid red;
+          border-bottom: @borderHeight solid red;
+          position: absolute;
+          right: -@borderHeight;
+          top: 0;
+          border-left: @borderHeight solid #3498db;
+          border-top: @borderHeight solid transparent;
+          border-bottom: @borderHeight solid transparent;
         }
-        a {
-          float: left;
-          margin-right: 22px;
-          display: inline-block;
-          position: relative;
-          height: 26px;
-          line-height: 26px;
-          padding: 4px 8px 4px 8px;
-          text-align: center;
-          background-color: #3498db;
-          color: #fff;
-          text-decoration: none;
-          font-size: @smallFontSize;
-          &:after {
-            content: "";
-            border-left: @borderHeight solid green;
-            border-top: @borderHeight solid red;
-            border-bottom: @borderHeight solid red;
-            position: absolute;
-            right: -@borderHeight;
-            top: 0;
-            border-left: @borderHeight solid #3498db;
-            border-top: @borderHeight solid transparent;
-            border-bottom: @borderHeight solid transparent;
-          }
-          &:before {
-            content: "";
-            border-top: @borderHeight solid #3498db;
-            border-bottom: @borderHeight solid #3498db;
-            border-left: @borderHeight solid transparent;
-            position: absolute;
-            top: 0;
-            left: -@borderHeight;
-          }
-          &:hover {
-            background-color: #832700;
-          }
-          &:hover:after {
-            border-left-color: #832700;
-          }
-          &:hover:before {
-            border-top-color: #832700;
-            border-bottom-color: #832700;
-          }
+        &:before {
+          content: "";
+          border-top: @borderHeight solid #3498db;
+          border-bottom: @borderHeight solid #3498db;
+          border-left: @borderHeight solid transparent;
+          position: absolute;
+          top: 0;
+          left: -@borderHeight;
+        }
+        &:hover {
+          background-color: #832700;
+        }
+        &:hover:after {
+          border-left-color: #832700;
+        }
+        &:hover:before {
+          border-top-color: #832700;
+          border-bottom-color: #832700;
         }
       }
     }

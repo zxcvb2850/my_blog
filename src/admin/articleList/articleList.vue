@@ -4,9 +4,9 @@
               element-loading-text="拼命加载中"
               element-loading-spinner="el-icon-loading"
               element-loading-background="rgba(0, 0, 0, 0.8)" :data="articles" style="width: 100%">
-      <el-table-column prop="type" label="附属" width="180" align="center"></el-table-column>
+      <el-table-column prop="type" label="附属" width="80" align="center"></el-table-column>
       <el-table-column prop="title" label="标题" width="180"></el-table-column>
-      <el-table-column prop="desc" label="描述" show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="desc" label="描述" show-overflow-tooltip></el-table-column>
       <el-table-column prop="status" label="状态" width="50"></el-table-column>
       <el-table-column fixed="right" label="操作" width="150" align="center">
         <template slot-scope="scope">
@@ -21,7 +21,7 @@
           <el-input v-model="form.name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="文章类型" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择文章类型">
+          <el-select v-model="form.type" placeholder="请选择文章类型">
             <el-option label="web前端" value="1"></el-option>
             <el-option label="node" value="2"></el-option>
             <el-option label="vue" value="3"></el-option>
@@ -31,7 +31,7 @@
           <span>11212</span>
         </el-form-item>
         <el-form-item label="来自" :label-width="formLabelWidth">
-          <el-input v-model="form.name" auto-complete="off"></el-input>
+          <el-input v-model="form.from" auto-complete="off"></el-input>
         </el-form-item>
         <!--<el-form-item label="商铺图片" label-width="100px">
           <el-upload
@@ -66,12 +66,8 @@
         imageUrl: '',
         form: {
           name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
+          type: '',
+          from: '',
           desc: ''
         },
         formLabelWidth: '120px'

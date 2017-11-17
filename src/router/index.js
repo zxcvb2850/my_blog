@@ -12,7 +12,9 @@ import Articles from 'components/articles/articles'
 //后端页面
 import Admin from 'admin/admin'
 import Login from 'admin/login/login'
+import adminIndex from 'admin/index'
 import articleList from 'admin/articleList/articleList'
+import articleAdd from 'admin/articleList/articleAdd'
 
 Vue.use(Router)
 
@@ -45,7 +47,10 @@ export default new Router({
       path: '/admin',
       component: Admin,
       children: [
-        {name: '文章列表', path: 'list', component: articleList, meta: ['文章列表'],}
+        {path: '', redirect: '/admin/index'},
+        {path: 'index', component: adminIndex},
+        {name: '文章列表', path: 'list', component: articleList, meta: ['文章列表']},
+        {name: '添加文章', path: 'addArticle', component: articleAdd, meta: ['添加文章']},
       ]
     },
     {

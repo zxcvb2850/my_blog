@@ -19,7 +19,7 @@
       }
     },
     created(){
-      this._getArticles();
+      //this._getArticles();
     },
     methods: {
       _getArticles(){
@@ -37,6 +37,9 @@
     components: {
       articlesList,
       breadCrumb
+    },
+    activated(){
+      this._getArticles();
     }
   }
 </script>
