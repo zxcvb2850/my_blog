@@ -43,7 +43,6 @@ export default new Router({
       ]
     },
     {
-      name: '后端页面',
       path: '/admin',
       component: Admin,
       children: [

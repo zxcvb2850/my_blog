@@ -13,7 +13,6 @@ router.get('/banner/get', banners.get);
 
 
 /* 获取文章列表 */
-router.post('/articles/post', articles.add);
 router.get('/articles/get', articles.get);
 /*获取热门文件*/
 router.get('/articles/hot/get', articles.getHot);
