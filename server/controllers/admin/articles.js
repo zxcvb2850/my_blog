@@ -25,7 +25,19 @@ exports.add = (req, res, next) => {
     leavs = [];
   logger.info(title, type, parent, desc, from, img, content, label);
 
-  // models.Articles.
+  models.Articles.insert({title, type, time, parent, desc, from, img, content, label, read, leavs}, (err, data) => {
+    if (err) {
+      return res.json({
+        status: ERROR,
+        msg: '发表失败'
+      })
+    }
 
-  res.send("添加文章")
+    logger.info(data)
+
+    res.json({
+      status: ERR_OK,
+      msg: '发表成功'
+    })
+  })
 }
