@@ -11,7 +11,7 @@
           text-color="#fff"
           active-text-color="#ffd04b"
           router>
-          <el-menu-item index="manage"><i class="el-icon-menu"></i>首页</el-menu-item>
+          <el-menu-item index="/admin"><i class="el-icon-menu"></i>首页</el-menu-item>
           <el-submenu index="2">
             <template slot="title"><i class="el-icon-document"></i><span>用户列表</span></template>
             <el-menu-item index="1-1">用户列表</el-menu-item>
@@ -19,10 +19,15 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-plus"></i>文章管理</template>
-            <el-menu-item index="/admin/list">文章列表</el-menu-item>
+            <el-menu-item index="/admin/listArticle">文章列表</el-menu-item>
             <el-menu-item index="/admin/addArticle">添加文章</el-menu-item>
           </el-submenu>
-          <el-menu-item index="4">
+          <el-submenu index="4">
+            <template slot="title"><i class="el-icon-plus"></i>banner管理</template>
+            <el-menu-item index="/admin/listBanner">banner管理</el-menu-item>
+            <el-menu-item index="/admin/addBanner">添加banner</el-menu-item>
+          </el-submenu>
+          <el-menu-item index="5">
             <i class="el-icon-setting"></i>
             <span slot="title">导航三</span>
           </el-menu-item>
@@ -61,7 +66,7 @@
 
   export default {
     name: 'admin',
-    data(){
+    data() {
       return {
         msg: '',
         loginStatus: false,
@@ -74,7 +79,7 @@
         document.documentElement.scrollTop = 0;
       }
     },
-    mounted(){
+    mounted() {
       this._getCookie();
     },
     methods: {
@@ -89,7 +94,7 @@
           confirmButtonText: '确定'
         });
       },
-      _getCookie(){
+      _getCookie() {
         let user = getCookie("user");
         let pwd = getCookie("check");
         if (user !== "") {

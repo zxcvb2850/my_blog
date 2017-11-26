@@ -15,6 +15,8 @@ import Login from 'admin/login/login'
 import adminIndex from 'admin/index'
 import articleList from 'admin/articleList/articleList'
 import articleAdd from 'admin/articleList/articleAdd'
+import bannerList from 'admin/banner/bannerList'
+import bannerAdd from 'admin/banner/bannerAdd'
 
 Vue.use(Router)
 
@@ -48,8 +50,10 @@ export default new Router({
       children: [
         {path: '', redirect: '/admin/index'},
         {path: 'index', component: adminIndex},
-        {name: '文章列表', path: 'list', component: articleList, meta: ['文章列表']},
+        {name: '文章列表', path: 'listArticle', component: articleList, meta: ['文章列表']},
         {name: '添加文章', path: 'addArticle', component: articleAdd, meta: ['添加文章']},
+        {name: 'banner列表', path: 'listBanner', component: bannerList, meta: ['banner列表']},
+        {name: '添加banner', path: 'addBanner', component: bannerAdd, meta: ['添加banner']},
       ]
     },
     {
