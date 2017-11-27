@@ -3,6 +3,7 @@ const router = express.Router();
 const users = require('../../controllers/admin/users');
 const update = require('../../controllers/admin/update');
 const articles = require('../../controllers/admin/articles');
+const banner = require('../../controllers/admin/banner');
 
 /* GET home page. */
 /*router.get('/', function(req, res, next) {
@@ -38,6 +39,10 @@ router.post('/admin/login', users.login);
 /*上传头像*/
 router.post('/admin/image', update.icon);
 
+/*发表文章*/
 router.post('/articles/add/post', articles.add);
+
+/*添加banner*/
+router.post('/banner/add/post', banner.addBanner);
 
 module.exports = router;

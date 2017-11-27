@@ -23,5 +23,5 @@ exports.get = function (req, res, next) {
       logger.error(response);
       res.json(response);
     }
-  });
+  }).sort({time: -1}).limit(3);
 };

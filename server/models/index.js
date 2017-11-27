@@ -9,7 +9,8 @@ const Schema = mongoose.Schema;
 const bannerSchema = new Schema({
   "src": String,
   "title": String,
-  "describe": String
+  "desc": String,
+  "time": String
 });
 /************** 定义模式articlesSchema **************/
 const articlesSchema = new Schema({

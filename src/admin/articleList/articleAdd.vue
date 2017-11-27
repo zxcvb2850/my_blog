@@ -68,7 +68,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button type="text" @click="open">点击打开 Message Box</el-button>
+    <el-button type="text" @click="open"></el-button>
   </div>
 </template>
 
@@ -154,9 +154,6 @@
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
         return isJPG && isLt2M;
-      },
-      submit(){
-        console.log(this.addArt.content)
       },
       submitForm(){
         console.log(this.addArt)

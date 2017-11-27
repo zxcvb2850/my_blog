@@ -7,12 +7,7 @@ const util = require('../../public/javascripts/util');
 const common = require('../../public/javascripts/common');
 const logger = require('../../logs/log').logger;
 
-var mongo = require('mongodb');
-var host = 'localhost';
-var port = 27017;       //    MongoDB数据库默认的端口号
-
-var server = new mongo.Server(host, port, {auto_reconnect: true});
-var db = new mongo.Db('my_blog', server, {salf: true});
+const db = require('../config/connect');
 
 const ERR_OK = 200;
 const ERROR = -1;
@@ -68,22 +63,4 @@ exports.add = (req, res, next) => {
       logger.info("成功关闭数据库");
     }
   });
-
-  /*logger.info(dbCollect);
-
-  models.Articles.insert(dbCollect, (err, data) => {
-    if (err) {
-      return res.json({
-        status: ERROR,
-        msg: '发表失败'
-      })
-    }
-
-    logger.info(data)
-
-    res.json({
-      status: ERR_OK,
-      msg: '发表成功'
-    })
-  })*/
 }
