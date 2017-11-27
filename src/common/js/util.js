@@ -64,3 +64,10 @@ export function getCookie(cname) {
 export function clearCookie(name) {
   this.setCookie(name, "", -1);
 }
+
+//弹窗
+export function open(title, content) {
+  this.$alert(content, title, {
+    confirmButtonText: '确定'
+  });
+}

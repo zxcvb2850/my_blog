@@ -78,6 +78,7 @@
   export default {
     data(){
       return {
+        loading: true,
         optionArt: [{
           value: '2',
           label: '文章'
@@ -159,7 +160,8 @@
       },
       submitForm(){
         console.log(this.addArt)
-        axios.post('/blog//articles/add/post', {
+        this.loading = true;
+        axios.post('/blog/articles/add/post', {
           title: this.addArt.title,
           type: this.addArt.defaultType,
           parent: this.addArt.defaultArt,
@@ -170,7 +172,19 @@
           label: this.addArt.dynamicTags
         })
           .then((res) => {
-            console.log(res)
+            res = res.data;
+            if (res.status === 200) {
+              this.$message({
+                type: 'success',
+                message: res.msg
+              })
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.msg
+              })
+            }
+            this.loading = false
           })
           .catch((err) => {
             this.open("服务器错误", err);
