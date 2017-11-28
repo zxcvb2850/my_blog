@@ -7,8 +7,9 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const log4js = require('./logs/log');
+const config = require('./config/config')
 
-mongoose.connect('mongodb://localhost/my_blog');
+mongoose.connect(`mongodb://${config.host}:${config.port}/${config.db}`);
 
 mongoose.connection.on("connected", () => {
   console.log("MongoDB connected success.")

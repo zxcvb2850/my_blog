@@ -49,4 +49,10 @@
     width: 100%;
     height: 100%;
   }
+
+  .err-red {
+    color: #f00;
+    font-weight: 700;
+    font-size: 18px;
+  }
 </style>

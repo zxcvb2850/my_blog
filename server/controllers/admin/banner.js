@@ -3,7 +3,7 @@ const util = require('../../public/javascripts/util');
 const common = require('../../public/javascripts/common');
 const logger = require('../../logs/log').logger;
 
-const db = require('../config/connect');
+const db = require('../../config/connect');
 
 const ERR_OK = 200;
 const ERROR = -1;

@@ -4,12 +4,18 @@
       <breadCrumb></breadCrumb>
       <div class="content">
         <h1 class="title">{{nowArticle.title}}</h1>
-        <p class="time">{{nowArticle.time}} (<span class="from">{{nowArticle.from}}</span>) 阅读次数：{{nowArticle.read}}</p>
+        <div class="time">
+          <p>{{nowArticle.time}} </p>
+          <p>(<span class="from">{{nowArticle.from}}</span>) </p>
+          <p>阅读次数：{{nowArticle.read}}</p>
+        </div>
         <p class="content" v-html="content"></p>
         <div class="label">
           <ol>
             <li class="label-item" v-for="label in nowArticle.label">
-              <a href="javascript:;">{{label}}</a>
+              <a href="javascript:;">
+                <el-tag type="danger" size="medium">{{label}}</el-tag>
+              </a>
             </li>
           </ol>
         </div>
@@ -254,6 +260,12 @@
         font-size: @smallFontSize;
         color: @infoColor;
         text-align: center;
+        p {
+          display: inline-block;
+          &:nth-child(2n) {
+            margin: 0 10px;
+          }
+        }
         .from {
           font-size: @smallerFontSize;
         }
@@ -291,16 +303,9 @@
           display: inline-block;
           margin: 2px;
           padding: 0 6px;
-          background-color: @labelBackground;
           .transition(all, 0.35s);
           &:hover {
             transform: rotate(360deg);
-            background-color: @labelHoverBackground;
-          }
-          a {
-            display: block;
-            text-align: center;
-            color: #fff;
           }
         }
       }

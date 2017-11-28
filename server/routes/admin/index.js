@@ -39,8 +39,9 @@ router.post('/admin/login', users.login);
 /*上传头像*/
 router.post('/admin/image', update.icon);
 
-/*发表文章*/
+/*文章管理*/
 router.post('/articles/add/post', articles.add);
+router.post('/articles/update/post', articles.update);
 
 /*添加banner*/
 router.post('/banner/add/post', banner.addBanner);

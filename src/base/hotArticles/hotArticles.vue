@@ -4,7 +4,7 @@
     <ul>
       <li v-for="item in hotArticle" class="hot-item">
         <time>{{item.time}}</time>
-        <a class="hot-title" href="javascript:;" @click="thisArticle(item)">{{item.title}}</a>
+        <a class="hot-title" href="javascript:;" @click="thisArticle(item)" :title="item.title">{{item.title}}</a>
         <span class="read">阅读：{{item.read}}</span>
       </li>
     </ul>
@@ -66,15 +66,15 @@
     .hot-item {
       list-style-type: none;
       margin: 5px 0;
-
+      display: flex;
       height: @textHeight;
       line-height: @textHeight;
       overflow: hidden;
       time {
-        float: left;
-        margin-right: 10px;
-        padding: 0 10px;
-        font-size: @smallFontSize;
+        flex: 30px 0 0;
+        margin-right: 6px;
+        padding: 0 8px;
+        font-size: @smallerFontSize;
         background-color: @dateBackground;
         color: @snowColor;
         .border-radius(10px);
@@ -82,6 +82,8 @@
       .hot-title {
         margin: 0;
         padding: 0;
+        flex: 1;
+        font-size: @smallFontSize;
         .no-wrap;
         &:hover {
           color: @hotColor;
@@ -89,9 +91,9 @@
         }
       }
       .read {
-        float: right;
+        flex: 0 0 80px;
         color: @infoColor;
-        font-size: @smallFontSize;
+        font-size: @smallerFontSize;
       }
     }
   }
