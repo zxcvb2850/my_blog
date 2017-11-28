@@ -8,7 +8,8 @@ const db = require('../../config/connect');
 const ERR_OK = 200;
 const ERROR = -1;
 
-exports.addBanner = (req, res, next)=>{
+/*添加banner*/
+exports.addBanner = (req, res, next) => {
   let title = req.body.title,
     desc = req.body.desc,
     src = req.body.src;
@@ -49,4 +50,26 @@ exports.addBanner = (req, res, next)=>{
       logger.info("成功关闭数据库");
     }
   });
+}
+
+/*获取banner*/
+exports.get = (req, res, next) => {
+  let response = {
+    status: ERROR,
+    msg: '参数错误'
+  }
+  models.Banner.find((err, docs) => {
+    if (err) {
+      looger.error('err');
+      response.msg = '服务器错误';
+      return res.json(response);
+    }
+
+    docs[0].time = util.getNowDate(docs[0].time);
+    response.data = docs;
+    response.status = ERR_OK;
+    response.msg = '查询成功';
+    response.count = docs.length;
+    res.json(response);
+  })
 }

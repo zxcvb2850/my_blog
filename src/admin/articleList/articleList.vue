@@ -62,7 +62,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item label="活动区域:" :label-width="formLabelWidth">
+        <el-form-item label="文章内容:" :label-width="formLabelWidth">
           <quill-editor v-model="editArt.content"
                         ref="myQuillEditor"
                         class="editer"
@@ -107,19 +107,13 @@
   import {pathRouter} from "common/js/util"
 
   export default {
-    data(){
+    data() {
       return {
         articles: [],
         loading: true,
         dialogFormVisible: false,
-        form: {
-          name: '',
-          type: '',
-          from: '',
-          desc: ''
-        },
         editArt: {
-          name: '',
+          title: '',
           type: '',
           from: '',
           read: '',
@@ -148,18 +142,16 @@
         inputVisible: false,
         inputValue: '',
         formLabelWidth: '80px',
-        editorOption: {"a": "a"},
-        detail: ''        //跳转地址
+        editorOption: {"a": "a"}
       };
     },
-    created(){
+    created() {
       this._getArticle();
     },
     methods: {
       //标签
       handleClose(tag) {
-        console.log(tag);
-        this.editArt.dynamicTags.splice(this.editArt.dynamicTags.indexOf(tag), 1);
+        this.editArt.label.splice(this.editArt.label.indexOf(tag), 1);
       },
 
       showInput() {
@@ -172,7 +164,7 @@
       handleInputConfirm() {
         let inputValue = this.inputValue;
         if (inputValue) {
-          this.editArt.dynamicTags.push(inputValue);
+          this.editArt.label.push(inputValue);
         }
         this.inputVisible = false;
         this.inputValue = '';
@@ -221,12 +213,12 @@
         this.oldimage = row.img;
         this._id = row._id;
       },
-      detailArticle(row){
+      detailArticle(row) {
         let parent = pathRouter(row);
         this.detail = `/index/${parent}/${row._id}`;
         window.open(`/index/${parent}/${row._id}`, "_blank");
       },
-      updateForm(){
+      updateForm() {
         let data = this.editArt;
         data['oldimage'] = this.oldimage;
         data['_id'] = this._id;
@@ -239,6 +231,7 @@
                 message: res.msg
               });
               this.dialogFormVisible = false;
+              this._getArticle();
             } else {
               this.open('操作提示', '更新失败:' + `<span class="err-red">${res.msg}</span>`, {
                 dangerouslyUseHTMLString: true
@@ -254,10 +247,10 @@
           dangerouslyUseHTMLString: true
         });
       },
-      deleteArticle(index, row){
+      deleteArticle(index, row) {
         console.log(index, row);
       },
-      _getArticle(){
+      _getArticle() {
         axios.get('/blog/articles/get').then((res) => {
           res = res.data;
           if (res.status === 200) {

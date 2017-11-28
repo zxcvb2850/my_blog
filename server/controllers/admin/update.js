@@ -10,12 +10,11 @@ const formidable = require('formidable');
 const ERR_OK = 200;
 const ERROR = -1;
 
+let TITLE = 'formidable上传示例',
+  AVATAR_UPLOAD_PATH = 'server/public',
+  AVATAR_UPLOAD_FOLDER = '/images/icon/';
+
 exports.icon = (req, res, next) => {
-  logger.error(__dirname);
-  let TITLE = 'formidable上传示例',
-    AVATAR_UPLOAD_PATH = 'server/public',
-    AVATAR_UPLOAD_FOLDER = '/images/icon/'
-    domain = "http://localhost:8088";
   logger.info("上传头像");
 
   let form = new formidable.IncomingForm();   //创建上传表单
@@ -69,4 +68,14 @@ exports.icon = (req, res, next) => {
       url: newPath
     });
   });
+}
+
+exports.deleteIcon = (uName) => {
+  let path = AVATAR_UPLOAD_PATH + uName
+  if (fs.existsSync(path)) {
+    fs.unlinkSync(path, function (err) {
+      if (err) throw err;
+      logger.info('删除更新之前的图片成功');
+    });
+  }
 }

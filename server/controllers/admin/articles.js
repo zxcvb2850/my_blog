@@ -6,6 +6,7 @@ const models = require('../../models/index');
 const util = require('../../public/javascripts/util');
 const common = require('../../public/javascripts/common');
 const logger = require('../../logs/log').logger;
+const update = require('./update');
 
 const db = require('../../config/connect');
 
@@ -93,10 +94,41 @@ exports.update = (req, res, next) => {
   }
   let time = new Date().getTime();
 
-  let dbCollect = {title, type, time, parent, desc, from, img, content, label};
-  logger.info("发表的文章", dbCollect);
+  let upDate = {title, type, time, parent, desc, from, img, content, label};
+  logger.info("更新的文章", upDate);
 
-  db.open(function (err, db) {
+  models.Articles.update({"_id": id}, {$set: upDate}, (err, docs) => {
+    if (err) {
+      logger.error(err);
+      response.status = ERROR;
+      response.msg = '更新失败'
+      logger.error(response);
+      return res.json(response);
+    } else {
+      models.Articles.find({"_id": id}, {"img": 1}, (err, data) => {
+        if (err) {
+          logger.error(err);
+          return res.json({
+            status: ERROR,
+            msg: '服务器错误'
+          })
+        }
+        logger.info(data[0].img);
+        let newimage = data[0].img;
+        if (oldimage !== newimage) {
+          logger.error('两次提交的照片不一致');
+          update.deleteIcon(oldimage);
+        } else {
+          logger.error('没有更改照片')
+        }
+      })
+      response.status = ERR_OK;
+      response.msg = '更新成功';
+      res.json(response);
+    }
+  })
+
+  /*db.open(function (err, db) {
     if (err) {
       logger.error("打开数据库失败");
       throw err;
@@ -121,5 +153,5 @@ exports.update = (req, res, next) => {
         ;
       });
     }
-  });
+  });*/
 }

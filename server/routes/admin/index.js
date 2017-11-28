@@ -44,6 +44,7 @@ router.post('/articles/add/post', articles.add);
 router.post('/articles/update/post', articles.update);
 
 /*添加banner*/
+router.get('/admin/banner/get', banner.get)
 router.post('/banner/add/post', banner.addBanner);
 
 module.exports = router;
