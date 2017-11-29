@@ -5,14 +5,19 @@
               element-loading-spinner="el-icon-loading"
               element-loading-background="rgba(0, 0, 0, 0.8)" :data="articles" style="width: 100%">
       <el-table-column prop="type" label="附属" width="80" align="center"></el-table-column>
-      <el-table-column prop="title" label="标题" width="180"></el-table-column>
+      <el-table-column prop="title" label="标题" width="180" show-overflow-tooltip></el-table-column>
       <el-table-column prop="desc" label="描述" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="status" label="状态" width="50"></el-table-column>
+      <el-table-column prop="status" label="状态" width="50">
+        <template slot-scope="scope">
+          <span v-if="scope.row.status === 1">显示</span>
+          <span v-else style="color: #f00;">隐藏</span>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="220" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="deleteArticle">删 除</el-button>
-          <el-button size="mini" @click="detailArticle(scope.row)">查看</el-button>
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" type="danger" @click="deleteArticle(scope.row._id, scope.row.img)">删除</el-button>
+          <el-button size="mini" type="success" @click="detailArticle(scope.row)">查看</el-button>
+          <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -20,6 +25,9 @@
       <el-form :model="editArt">
         <el-form-item label="标题:" :label-width="formLabelWidth">
           <el-input v-model="editArt.title" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="描述:" :label-width="formLabelWidth">
+          <el-input v-model="editArt.desc" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="文章类型:" :label-width="formLabelWidth">
           <el-select v-model="editArt.parent" clearable placeholder="请选择文章类型">
@@ -33,8 +41,8 @@
           </el-select>
         </el-form-item>
         <el-form-item label="是否隐藏:" :label-width="formLabelWidth">
-          <el-tooltip :content="'文章: ' + editArt.value5" placement="top">
-            <el-switch v-model="editArt.value5" active-color="#13ce66" inactive-color="#D3DCE6" active-value="显示"
+          <el-tooltip :content="'文章: ' + editArt.status" placement="top">
+            <el-switch v-model="editArt.status" active-color="#13ce66" inactive-color="#D3DCE6" active-value="显示"
                        inactive-value="隐藏">
             </el-switch>
           </el-tooltip>
@@ -99,6 +107,14 @@
       </div>
     </el-dialog>
     <el-button type="text" @click="open"></el-button>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-sizes="pageSize"
+      :page-size="rows"
+      layout="sizes, prev, pager, next, jumper, total"
+      :total="total">
+    </el-pagination>
   </div>
 </template>
 
@@ -109,6 +125,10 @@
   export default {
     data() {
       return {
+        page: 1,        //第几页
+        pageSize: [1, 2, 3, 4],       //每页显示条数
+        rows: 2,
+        total: 0,       //数据总数
         articles: [],
         loading: true,
         dialogFormVisible: false,
@@ -123,7 +143,7 @@
           content: '',
           parent: '',
           label: [],
-          value5: '显示'
+          status: '显示'
         },
         optionArt: [{
           value: '2',
@@ -170,7 +190,7 @@
         this.inputValue = '';
       },
 
-      //上传头像
+      //上传图片
       handleAvatarSuccess(res, file) {
         if (res.status === 200) {
           this.editArt.img = res.url
@@ -181,9 +201,8 @@
         } else {
           this.open("服务器错误", res.msg);
         }
-
-        //this.addArt.imageUrl = URL.createObjectURL(file.raw);
       },
+      //上传图片限制
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
@@ -196,7 +215,9 @@
         }
         return isJPG && isLt2M;
       },
+      //查看的表单
       handleEdit(index, row) {
+        console.log(row)
         this.dialogFormVisible = true;
         this.editArt.title = row.title;
         this.editArt.desc = row.desc;
@@ -209,19 +230,32 @@
         this.editArt.leavs = row.leavs.length;
         this.editArt.parent = row.parent + '';
         this.editArt.type = row.type + '';
+        if (row.status === 1) {
+          this.editArt.status = '显示';
+        } else {
+          this.editArt.status = '隐藏';
+        }
 
         this.oldimage = row.img;
         this._id = row._id;
       },
+      //查看
       detailArticle(row) {
         let parent = pathRouter(row);
         this.detail = `/index/${parent}/${row._id}`;
         window.open(`/index/${parent}/${row._id}`, "_blank");
       },
+      //更新
       updateForm() {
         let data = this.editArt;
+        if (data['status'] === '显示') {
+          data['status'] = 1;
+        } else {
+          data['status'] = 0;
+        }
         data['oldimage'] = this.oldimage;
         data['_id'] = this._id;
+        console.log(data);
         axios.post('/blog/articles/update/post', data)
           .then((res) => {
             res = res.data;
@@ -233,39 +267,91 @@
               this.dialogFormVisible = false;
               this._getArticle();
             } else {
-              this.open('操作提示', '更新失败:' + `<span class="err-red">${res.msg}</span>`, {
-                dangerouslyUseHTMLString: true
-              });
+              this.open('操作提示', '更新失败:' + `<span class="err-red">${res.msg}</span>`, 'error');
             }
           })
           .catch((err) => {
-            this.open('操作提示', '更新失败' + `<span class="err-red">${err}</span>`);
+            this.open('操作提示', '更新失败' + `<span class="err-red">${err}</span>`, 'error');
           })
       },
-      open(title, msg) {
+      //弹窗
+      open(title, msg, status = 'info') {
         this.$alert(msg, title, {
-          dangerouslyUseHTMLString: true
+          dangerouslyUseHTMLString: true,
+          type: status
         });
       },
-      deleteArticle(index, row) {
-        console.log(index, row);
+      //删除
+      deleteArticle(id, img) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          axios.post('/blog/articles/delete/post', {id, img})
+            .then((res) => {
+              res = res.data;
+              if (res.status === 200) {
+                this.$message({
+                  type: 'success',
+                  message: res.msg
+                });
+                this._getArticle();
+              } else {
+                this.$message({
+                  type: 'err',
+                  message: res.msg
+                });
+              }
+            })
+            .catch((err) => {
+              this.$message({
+                type: 'error',
+                message: '删除失败'
+              });
+            })
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+
+      //分页
+      handleSizeChange(val) {
+        this.rows = val;
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        this.page = val
+        console.log(this.page)
+        console.log(this.rows)
+        this._getArticle(this.page, this.rows);
+        console.log(`当前页: ${val}`);
       },
       _getArticle() {
-        axios.get('/blog/articles/get').then((res) => {
+        axios.get(`/blog/articles/get?all=1&page=${this.page}&rows=${this.rows}`).then((res) => {
           res = res.data;
           if (res.status === 200) {
             this.articles = res.data;
-            this.loading = false
+            this.total = res.count;
+          } else {
+            this.open('操作提示', res.msg);
           }
+          this.loading = false
         }).catch((err) => {
           this.open(err + '服务器错误', '错误')
         })
       }
-    }
+    },
   }
 </script>
 
 <style lang="less">
+  @import "~common/style/index.less";
+
   .article-list {
     .avatar-uploader {
       .el-upload {
@@ -311,6 +397,36 @@
       width: 90px;
       margin-left: 10px;
       vertical-align: bottom;
+    }
+
+    .el-pagination {
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 82%;
+      color: #000;
+      background-color: #d0d0d0;
+      .el-pager {
+        li.active {
+          .border-radius(3px);
+          color: #FFF;
+          background-color: @adminMainBackground;
+        }
+      }
+      .btn-next, .btn-prev {
+        .border-radius(3px);
+        color: #FFF;
+        background-color: @adminMainBackground;
+        &.disabled {
+          color: @adminMainBackground;
+          background-color: #FFF;
+        }
+      }
+      .el-pagination__total {
+        position: absolute;
+        right: 10px;
+        color: #000;
+      }
     }
   }
 </style>

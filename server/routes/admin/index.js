@@ -42,6 +42,7 @@ router.post('/admin/image', update.icon);
 /*文章管理*/
 router.post('/articles/add/post', articles.add);
 router.post('/articles/update/post', articles.update);
+router.post('/articles/delete/post', articles.delete);
 
 /*添加banner*/
 router.get('/admin/banner/get', banner.get)

@@ -16,6 +16,7 @@ const bannerSchema = new Schema({
 const articlesSchema = new Schema({
   "type": Number,
   "parent": Number,
+  "status": Number,
   "title": String,
   "img": String,
   "from": String,

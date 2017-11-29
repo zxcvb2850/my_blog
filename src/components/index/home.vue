@@ -12,7 +12,7 @@
         <h1 class="art-title">最新发布</h1>
         <articles-list :articles="articles"></articles-list>
         <div class="pagenation">
-          <el-pagination @current-change="handleCurrentChange" :page-size="pageSize" yout="pager, jumper"
+          <el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, total"
                          :total="count">
           </el-pagination>
         </div>
@@ -127,7 +127,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import "~common/style/index.less";
 
   .art-index {
@@ -153,6 +153,27 @@
       }
       .pagenation {
         margin: 30px 50px;
+        .el-pagination {
+          .el-pager {
+            li.active {
+              .border-radius(3px);
+              color: #FFF;
+              background-color: @adminMainBackground;
+            }
+          }
+          .btn-next, .btn-prev {
+            .border-radius(3px);
+            color: #FFF;
+            background-color: @adminMainBackground;
+            &.disabled {
+              color: @adminMainBackground;
+              background-color: #FFF;
+            }
+          }
+          .el-pagination__total{
+            float: right;
+          }
+        }
       }
     }
     .rec-right {
@@ -209,7 +230,7 @@
           font-size: 0;
           &:hover {
             color: @snowColor;
-            span{
+            span {
               color: red;
             }
           }

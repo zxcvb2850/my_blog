@@ -14,22 +14,27 @@ const ERROR = -1;
  * */
 exports.get = function (req, res, next) {
   let type = req.query.type || '';
-  logger.error(type);
+  let all = req.query.all || '';
   let page = parseInt(req.query.page) || '';
   let rows = parseInt(req.query.rows) || 10;
-  let start = (page - 1) * rows;
+  let start = 0;
+  if (page) {
+    start = (page - 1) * rows;
+  }
   let response = {};
-  let select = {};
-  if (type) {
-    select = {
-      type
-    }
-  } else {
+  let select = {'status': '1'};
+  if (all) {
     select = {}
+  } else {
+    if (type) {
+      select.type = type;
+    }
+    if (!page) {
+      start = rows = 0;
+    }
   }
-  if (!page) {
-    start = rows = 0;
-  }
+
+  logger.info(select);
 
   let query = models.Articles.find(select).skip(start).limit(rows).sort({time: -1});
 
@@ -41,20 +46,22 @@ exports.get = function (req, res, next) {
       return res.json(response);
     } else {
       //计算数据总数
-      models.Articles.find(function (err, result) {
-        if (err) {
-          response.status = ERROR;
-          response.msg = "系统错误";
-          logger.error(err);
-          return res.json(response);
-        } else {
-          for (let i = 0; i < data.length; i++) {
-            data[i].time = util.getNowDate(data[i].time, false);
+      models.Articles.find(select, function (err, result) {
+          if (err) {
+            response.status = ERROR;
+            response.msg = "系统错误";
+            logger.error(err);
+            return res.json(response);
+          } else {
+            for (let i = 0; i < data.length; i++) {
+              data[i].time = util.getNowDate(data[i].time, false);
+            }
+            response = {data: data, rows: data.length, count: result.length, status: ERR_OK};
+            res.json(response);
           }
-          response = {data: data, rows: data.length, count: result.length, status: ERR_OK};
-          res.json(response);
         }
-      });
+      )
+      ;
     }
   });
 };
