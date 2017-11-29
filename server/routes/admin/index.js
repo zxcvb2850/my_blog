@@ -47,5 +47,6 @@ router.post('/articles/delete/post', articles.delete);
 /*添加banner*/
 router.get('/admin/banner/get', banner.get)
 router.post('/banner/add/post', banner.addBanner);
+router.post('/banner/delete/post', banner.deleteBanner);
 
 module.exports = router;

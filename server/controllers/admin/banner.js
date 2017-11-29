@@ -1,6 +1,7 @@
 const models = require('../../models/index');
 const util = require('../../public/javascripts/util');
 const common = require('../../public/javascripts/common');
+const update = require('./update');
 const logger = require('../../logs/log').logger;
 
 const db = require('../../config/connect');
@@ -65,11 +66,44 @@ exports.get = (req, res, next) => {
       return res.json(response);
     }
 
-    docs[0].time = util.getNowDate(docs[0].time);
+    if (docs[0]) {
+      docs[0].time = util.getNowDate(docs[0].time);
+    }
     response.data = docs;
     response.status = ERR_OK;
     response.msg = '查询成功';
     response.count = docs.length;
     res.json(response);
   })
+}
+
+/*删除banner*/
+exports.deleteBanner = (req, res, next) => {
+  let id = req.body.id,
+    src = req.body.src;
+
+  let response = {status: ERROR, msg: '参数错误'};
+
+  if (!id || !src) {
+    logger.error(response);
+    return res.json(response);
+  }
+
+  models.Banner.remove({"_id": id}, function (err, docs) {
+    if (err) {
+      logger.error(err);
+      logger.error(err, "----删除失败");
+      return res.json({
+        status: ERROR,
+        msg: '删除失败'
+      })
+    }
+    logger.info(id, "------删除成功");
+    update.deleteIcon(src);
+    logger.info("图片删除成功");
+    res.json({
+      status: ERR_OK,
+      msg: '删除成功'
+    });
+  });
 }

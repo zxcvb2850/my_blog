@@ -137,6 +137,12 @@ exports.update = (req, res, next) => {
 exports.delete = (req, res, next) => {
   let id = req.body.id;
   let img = req.body.img;
+  let response = {status: ERROR, msg: '参数错误'};
+
+  if (!id || !img) {
+    logger.error(response);
+    return res.json(response);
+  }
 
   models.Articles.remove({"_id": id}, function (err, docs) {
     if (err) {
