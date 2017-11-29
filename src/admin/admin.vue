@@ -1,5 +1,5 @@
 <template>
-  <div class="manage_page fillcontain" v-show="loginFlag">
+  <div class="manage_page fillcontain">
     <el-row style="height: 100%;">
       <el-col :span="4" class="menu-list">
         <el-menu
@@ -67,20 +67,13 @@
   export default {
     name: 'admin',
     data() {
-      return {
-        msg: '',
-        loginStatus: false,
-        loginFlag: false
-      };
+      return {}
     },
     watch: {          //切换路由监听滚动条
       '$route': function (to, from) {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
       }
-    },
-    mounted() {
-      this._getCookie();
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -93,28 +86,6 @@
         this.$alert(msg, title, {
           confirmButtonText: '确定'
         });
-      },
-      _getCookie() {
-        let user = getCookie("user");
-        let pwd = getCookie("check");
-        if (user !== "") {
-          axios.post('/blog/admin/login', {username: user, password: pwd})
-            .then((res) => {
-              res = res.data;
-              if (res.status === -1) {
-                this.$router.push('/admin/login');
-              } else {
-                this.loginFlag = true
-              }
-            })
-            .catch((err) => {
-              console.log("用户获取失败");
-              console.log(err)
-            })
-        } else {
-          this.$router.push('/admin/login');
-          return;
-        }
       }
     },
     computed: {

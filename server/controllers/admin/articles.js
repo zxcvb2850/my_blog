@@ -36,7 +36,7 @@ exports.add = (req, res, next) => {
     label = req.body.label.length !== 0 ? req.body.label : ['未分类'];
 
   let response = {status: ERROR, msg: '参数错误'};
-  if (!title || !type || !parrent || !desc || !img || !content) {
+  if (!title || !type || !parent || !desc || !img || !content) {
     return res.json(response);
   }
   let time = new Date().getTime(),
