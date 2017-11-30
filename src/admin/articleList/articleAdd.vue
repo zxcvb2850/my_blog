@@ -95,14 +95,14 @@
         }],
         editorOption: {},
         addArt: {                 //文章表单
-          title: '我是标题',                 //文章标题
-          desc: '描述',                      //文章描述
+          title: '',                 //文章标题
+          desc: '',                      //文章描述
           defaultType: '1',                 //文章类型
           defaultArt: '2',                  //文章分类
-          from: '自创',                     //文章来自
+          from: '',                     //文章来自
           imageUrl: '',                     //文章图片
-          content: '我是文章内容',                      //文章内容
-          dynamicTags: ['vue', 'html']      //文章标签
+          content: '',                      //文章内容
+          dynamicTags: []      //文章标签
         },
         inputVisible: false,
         inputValue: ''
@@ -174,7 +174,17 @@
               this.$message({
                 type: 'success',
                 message: res.msg
-              })
+              });
+
+              //发表成功清空表单
+              this.addArt.title = ''
+              this.addArt.defaultType = '1'
+              this.addArt.defaultArt = '2'
+              this.addArt.desc = ''
+              this.addArt.from = ''
+              this.addArt.imageUrl = ''
+              this.addArt.content = ''
+              this.addArt.dynamicTags = []
             } else {
               this.$message({
                 type: 'error',

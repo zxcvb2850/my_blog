@@ -15,7 +15,7 @@ exports.addBanner = (req, res, next) => {
     desc = req.body.desc,
     src = req.body.src;
 
-  let time = new Date().getTime();
+  let time = new Date();
 
   let dbCollect = {title, desc, src, time};
   logger.info("添加Banner", dbCollect);
@@ -55,25 +55,41 @@ exports.addBanner = (req, res, next) => {
 
 /*获取banner*/
 exports.get = (req, res, next) => {
+  let page = parseInt(req.query.page, 10) || '',
+    rows = parseInt(req.query.rows, 10) || 10;
+  let start = 0;
+  if (page) {
+    start = (page - 1) * rows;
+  }
+
   let response = {
     status: ERROR,
     msg: '参数错误'
-  }
-  models.Banner.find((err, docs) => {
-    if (err) {
-      looger.error('err');
-      response.msg = '服务器错误';
+  };
+
+  let query = models.Banner.find().skip(start).limit(rows).sort({time: -1});
+
+  query.exec((err, data)=>{
+    if(err){
+      response.msg = '查询失败';
+      logger.error(response);
       return res.json(response);
     }
 
-    if (docs[0]) {
-      docs[0].time = util.getNowDate(docs[0].time);
-    }
-    response.data = docs;
-    response.status = ERR_OK;
-    response.msg = '查询成功';
-    response.count = docs.length;
-    res.json(response);
+    models.Banner.find((err, docs) => {
+      if (err) {
+        looger.error('err');
+        response.msg = '服务器错误';
+        return res.json(response);
+      }
+      response.data = data;
+      response.status = ERR_OK;
+      response.msg = '查询成功';
+      response.rows = data.length;
+      response.count = docs.length;
+      logger.info(response);
+      res.json(response);
+    });
   })
 }
 

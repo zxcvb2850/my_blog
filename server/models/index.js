@@ -10,7 +10,7 @@ const bannerSchema = new Schema({
   "src": String,
   "title": String,
   "desc": String,
-  "time": String
+  "time": Date
 });
 /************** 定义模式articlesSchema **************/
 const articlesSchema = new Schema({
@@ -20,7 +20,8 @@ const articlesSchema = new Schema({
   "title": String,
   "img": String,
   "from": String,
-  "time": String,
+  "time": Date,
+  "timeMod": Date,
   "desc": String,
   "content": String,
   "read": Number,

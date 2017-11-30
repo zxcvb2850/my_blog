@@ -3,7 +3,7 @@
     <h4 class="title">热门文章</h4>
     <ul>
       <li v-for="item in hotArticle" class="hot-item">
-        <time>{{item.time}}</time>
+        <time>{{time(item.time)}}</time>
         <a class="hot-title" href="javascript:;" @click="thisArticle(item)" :title="item.title">{{item.title}}</a>
         <span class="read">阅读：{{item.read}}</span>
       </li>
@@ -13,6 +13,7 @@
 
 <script>
   import axios from "axios"
+  import moment from "moment"
   import {pathRouter} from "common/js/util"
 
   export default {
@@ -27,6 +28,9 @@
       }, 200)
     },
     methods: {
+      time(time){
+          return moment(time).format('MM-DD')
+      },
       thisArticle(item){
         let type = pathRouter(item);
         this.$router.push({

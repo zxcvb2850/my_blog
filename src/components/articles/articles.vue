@@ -5,11 +5,14 @@
       <div class="content">
         <h1 class="title">{{nowArticle.title}}</h1>
         <div class="time">
-          <p>{{nowArticle.time}} </p>
+          <p>{{nowArticle.time}}</p>
           <p>(<span class="from">{{nowArticle.from}}</span>) </p>
           <p>阅读次数：{{nowArticle.read}}</p>
         </div>
-        <p class="content" v-html="content"></p>
+        <div class="status">
+          <p class="status-no" v-if="nowArticle.status === 0"><i class="el-icon-remove-outline"></i>此文章已被隐藏 </p>
+        </div>
+        <p class="content" v-html="nowArticle.content"></p>
         <div class="label">
           <ol>
             <li class="label-item" v-for="label in nowArticle.label">
@@ -69,6 +72,7 @@
 
 <script>
   import axios from 'axios'
+  import moment from 'moment'
   import breadCrumb from 'base/breadcrumb/breadcrumb'
   import hotArticles from 'base/hotArticles/hotArticles'
 
@@ -129,14 +133,8 @@
     },
     created(){
       setTimeout(() => {
-        this.wrapLine();
         this._getHotArticle();
       }, 200)
-    },
-    watch: {
-      $route (){
-        this.wrapLine();
-      }
     },
     methods: {
       submitForm(formName) {
@@ -170,14 +168,6 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-      wrapLine(){
-        setTimeout(() => {
-          let content = this.nowArticle.content;
-          if (content) {
-            this.content = content.replace(/[\n]/g, "<br/>");
-          }
-        }, 200)
-      },
       open() {
         this.$alert(this.msg, this.title, {
           confirmButtonText: '确定'
@@ -185,7 +175,6 @@
       },
       detailClick(){
         this._getArticle();
-        this.wrapLine();
         this._getLeavs();
       },
       _getArticle(){
@@ -194,7 +183,8 @@
           .then((res) => {
             res = res.data;
             if (res.status === 200) {
-              this.nowArticle = res.data[0];
+              res.data.time = moment(res.data.time).format('YYYY-MM-DD H:mm:ss');
+              this.nowArticle = res.data;
             }
           })
           .catch((err) => {
@@ -268,6 +258,23 @@
         }
         .from {
           font-size: @smallerFontSize;
+        }
+      }
+      .status {
+        text-align: center;
+        color: #f00;
+        .el-icon-remove-outline {
+          font-size: 30px;
+          vertical-align: middle;
+          transform-origin: center center;
+          .transition(all, .4s);
+          &:hover {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+          }
         }
       }
       .content {

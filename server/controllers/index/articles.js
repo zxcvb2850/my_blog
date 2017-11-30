@@ -5,6 +5,7 @@ const models = require('../../models/index');
 const util = require('../../public/javascripts/util');
 const common = require('../../public/javascripts/common');
 const logger = require('../../logs/log').logger;
+const moment = require('moment');
 
 const ERR_OK = 200;
 const ERROR = -1;
@@ -47,21 +48,20 @@ exports.get = function (req, res, next) {
     } else {
       //计算数据总数
       models.Articles.find(select, function (err, result) {
-          if (err) {
-            response.status = ERROR;
-            response.msg = "系统错误";
-            logger.error(err);
-            return res.json(response);
-          } else {
-            for (let i = 0; i < data.length; i++) {
-              data[i].time = util.getNowDate(data[i].time, false);
-            }
-            response = {data: data, rows: data.length, count: result.length, status: ERR_OK};
-            res.json(response);
-          }
+        if (err) {
+          response.status = ERROR;
+          response.msg = "系统错误";
+          logger.error(err);
+          return res.json(response);
+        } else {
+          /*for (let i = 0; i < data.length; i++) {
+           data[i].time = util.getNowDate(data[i].time);
+           }*/
+          response = {data: data, rows: data.length, count: result.length, status: ERR_OK};
+          logger.info(response);
+          res.json(response);
         }
-      )
-      ;
+      });
     }
   });
 };
@@ -78,16 +78,16 @@ exports.add = function (req, res, next) {
  * */
 exports.getHot = (req, res, next) => {
   let response = {}
-  models.Articles.find({}, {title: 1, parent: 1, type: 1, time: 1, read: 1}, function (err, data) {
+  models.Articles.find({status: 1}, {title: 1, parent: 1, type: 1, time: 1, read: 1}, function (err, data) {
     if (err) {
       response.msg = "获取文章失败";
       response.status = ERROR;
       logger.error("文章获取失败" + err);
       return res.json(response);
     } else {
-      for (let i = 0; i < data.length; i++) {
-        data[i].time = getMonth(data[i].time);
-      }
+      /*for (let i = 0; i < data.length; i++) {
+       data[i].time = getMonth(data[i].time);
+       }*/
       response.count = data.length;
       response.data = data;
       response.status = ERR_OK;
@@ -128,7 +128,6 @@ exports.detail = function (req, res, next) {
       logger.error("增加阅读失败" + err);
       return res.json(response);
     } else {
-      console.error("更新成功" + docs);
       models.Articles.find(detail, (err, data) => {
         if (err) {
           response.status = ERROR;
@@ -136,10 +135,9 @@ exports.detail = function (req, res, next) {
           logger.error(err);
           res.json(response);
         } else {
-          data[0].time = util.getNowDate(data[0].time);
           response.status = ERR_OK;
-          response.data = data;
-          logger.info(data);
+          response.data = data[0];
+          logger.info(data[0].title + '阅读+1');
           res.json(response);
         }
       });
@@ -147,6 +145,7 @@ exports.detail = function (req, res, next) {
   });
 };
 
+/*添加阅读数*/
 exports.read = function (req, res, next) {
   let response = {};
   let id = req.query.id || '';
@@ -171,7 +170,7 @@ exports.read = function (req, res, next) {
     } else {
       response.status = ERR_OK;
       response.data = data;
-      logger.info("成功");
+      logger.info(data);
       res.json(response);
     }
   });
@@ -232,7 +231,7 @@ exports.getLeavs = (req, res, next) => {
       response.status = ERROR;
       response.msg = "服务器错误";
       res.json(response);
-      console.error(err);
+      logger.error(err);
     } else {
       let getData = data[0].leavs;
       if (getData) {

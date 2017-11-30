@@ -48,6 +48,7 @@
 
 <script>
   import axios from "axios"
+  import moment from "moment"
   import Slider from "base/slider/slider"
   import articlesList from "base/articlesList/articlesList"
   import hotArticles from "base/hotArticles/hotArticles"
@@ -91,6 +92,9 @@
         axios.get(`/blog/articles/get?page=${page}&rows=${this.pageSize}`).then((res) => {
           res = res.data;
           if (res.status === 200) {
+            for (let i = 0; i < res.data.length; i++) {
+              res.data[i].time = moment(res.data[i].time).format("LLL");
+            }
             this.count = res.count;
             this.articles = res.data;
           }
@@ -170,7 +174,7 @@
               background-color: #FFF;
             }
           }
-          .el-pagination__total{
+          .el-pagination__total {
             float: right;
           }
         }

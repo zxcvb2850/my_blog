@@ -7,6 +7,11 @@
               element-loading-text="拼命加载中"
               element-loading-spinner="el-icon-loading"
               element-loading-background="rgba(0, 0, 0, 0.8)" :data="articles" style="width: 100%">
+      <el-table-column label="发布时间" width="150">
+        <template slot-scope="scope">
+          <span>{{time(scope.row.time)}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="title" label="标题" width="100"></el-table-column>
       <el-table-column prop="desc" label="描述" show-overflow-tooltip></el-table-column>
       <el-table-column label="图片" width="320">
@@ -23,16 +28,29 @@
       </el-table-column>
     </el-table>
     <el-button type="text" @click="open"></el-button>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-sizes="pageSize"
+      :page-size="rows"
+      layout="sizes, prev, pager, next, jumper, total"
+      :total="total">
+    </el-pagination>
   </div>
 </template>
 
 <script>
   import axios from "axios"
+  import moment from "moment"
   import {pathRouter} from "common/js/util"
 
   export default {
     data() {
       return {
+        page: 1,        //第几页
+        pageSize: [5, 10, 20, 30],       //每页显示条数
+        rows: 5,
+        total: 0,       //数据总数
         articles: [],
         loading: true,
       };
@@ -41,6 +59,9 @@
       this._getBanner();
     },
     methods: {
+      time(time){
+        return moment(time).format('YYYY-MM-DD H:mm:ss');
+      },
       open(title, msg) {
         this.$alert(msg, title, {
           dangerouslyUseHTMLString: true
@@ -82,11 +103,22 @@
           });
         });
       },
+
+      //分页
+      handleSizeChange(val) {
+        this.rows = val;
+        this._getBanner();
+      },
+      handleCurrentChange(val) {
+        this.page = val
+        this._getBanner();
+      },
       _getBanner() {
-        axios.get('/blog/admin/banner/get').then((res) => {
+        axios.get(`/blog/admin/banner/get?page=${this.page}&rows=${this.rows}`).then((res) => {
           res = res.data;
           if (res.status === 200) {
             this.articles = res.data;
+            this.total = res.count;
             this.loading = false
           }
         }).catch((err) => {
@@ -98,6 +130,8 @@
 </script>
 
 <style lang="less">
+  @import "~common/style/index.less";
+
   .article-list {
     .avatar-uploader {
       .el-upload {
@@ -149,6 +183,36 @@
       width: 300px;
       img {
         width: 100%;
+      }
+    }
+
+    .el-pagination {
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 82%;
+      color: #000;
+      background-color: #d0d0d0;
+      .el-pager {
+        li.active {
+          .border-radius(3px);
+          color: #FFF;
+          background-color: @adminMainBackground;
+        }
+      }
+      .btn-next, .btn-prev {
+        .border-radius(3px);
+        color: #FFF;
+        background-color: @adminMainBackground;
+        &.disabled {
+          color: @adminMainBackground;
+          background-color: #FFF;
+        }
+      }
+      .el-pagination__total {
+        position: absolute;
+        right: 10px;
+        color: #000;
       }
     }
   }

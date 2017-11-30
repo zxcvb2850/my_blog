@@ -30,12 +30,12 @@ exports.add = (req, res, next) => {
   if (!title || !type || !parent || !desc || !img || !content) {
     return res.json(response);
   }
-  let time = new Date().getTime(),
+  let time = new Date(),
     read = 0,
     status = 1,
     leavs = [];
 
-  let dbCollect = {title, type, time, parent, status, desc, from, img, content, label, read, leavs};
+  let dbCollect = {title, type, time, "timeMod": time, parent, status, desc, from, img, content, label, read, leavs};
   logger.info("发表的文章", dbCollect);
 
   db.open(function (err, db) {
@@ -94,9 +94,9 @@ exports.update = (req, res, next) => {
     logger.error(response);
     return res.json(response);
   }
-  let time = new Date().getTime();
+  let time = new Date();
 
-  let upDate = {title, type, time, parent, status, desc, from, img, content, label};
+  let upDate = {title, type, "timeMod": time, parent, status, desc, from, img, content, label};
   logger.info("更新的文章", upDate);
 
   models.Articles.update({"_id": id}, {$set: upDate}, (err, docs) => {

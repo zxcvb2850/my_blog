@@ -7,9 +7,19 @@
               element-loading-text="拼命加载中"
               element-loading-spinner="el-icon-loading"
               element-loading-background="rgba(0, 0, 0, 0.8)" :data="articles" style="width: 100%">
-      <el-table-column prop="type" label="附属" width="80" align="center"></el-table-column>
-      <el-table-column prop="title" label="标题" width="180" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="type" label="附属" width="60" align="center"></el-table-column>
+      <el-table-column prop="title" label="标题" width="150" show-overflow-tooltip></el-table-column>
       <el-table-column prop="desc" label="描述" show-overflow-tooltip></el-table-column>
+      <el-table-column label="发布时间" width="120">
+        <template slot-scope="scope">
+          <span>{{time(scope.row.time)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="120" label="修改时间">
+        <template slot-scope="scope">
+          <span>{{time(scope.row.timeMod)}}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" width="50">
         <template slot-scope="scope">
           <span v-if="scope.row.status === 1">显示</span>
@@ -52,6 +62,9 @@
         </el-form-item>
         <el-form-item label="发表时间:" :label-width="formLabelWidth">
           <span>{{editArt.time}}</span>
+        </el-form-item>
+        <el-form-item label="最后修改时间:" :label-width="formLabelWidth">
+          <span>{{editArt.timeMod}}</span>
         </el-form-item>
         <el-form-item label="阅读次数:" :label-width="formLabelWidth">
           <span>{{editArt.read}} 次</span>
@@ -123,14 +136,15 @@
 
 <script>
   import axios from "axios"
+  import moment from "moment"
   import {pathRouter} from "common/js/util"
 
   export default {
     data() {
       return {
         page: 1,        //第几页
-        pageSize: [1, 2, 3, 4],       //每页显示条数
-        rows: 2,
+        pageSize: [5, 10, 20, 50],       //每页显示条数
+        rows: 10,
         total: 0,       //数据总数
         articles: [],
         loading: true,
@@ -139,6 +153,8 @@
           title: '',
           type: '',
           from: '',
+          time: '',
+          timeMod: '',
           read: '',
           leavs: '',
           desc: '',
@@ -164,7 +180,7 @@
         }],
         inputVisible: false,
         inputValue: '',
-        formLabelWidth: '80px',
+        formLabelWidth: '100px',
         editorOption: {"a": "a"}
       };
     },
@@ -172,6 +188,12 @@
       this._getArticle();
     },
     methods: {
+      time(time){
+        return moment(time).format('MM-DD H:mm')
+      },
+      modTime(time){
+        return moment(time).format('MM-DD H:mm')
+      },
       //标签
       handleClose(tag) {
         this.editArt.label.splice(this.editArt.label.indexOf(tag), 1);
@@ -225,7 +247,8 @@
         this.editArt.title = row.title;
         this.editArt.desc = row.desc;
         this.editArt.img = row.img;
-        this.editArt.time = row.time;
+        this.editArt.time = moment(row.time).format('YYYY-MM-DD H:mm:ss');
+        this.editArt.timeMod = moment(row.timeMod).format('YYYY-MM-DD H:mm:ss');
         this.editArt.content = row.content;
         this.editArt.from = row.from;
         this.editArt.read = row.read;
@@ -324,15 +347,14 @@
 
       //分页
       handleSizeChange(val) {
+        this.loading = true;
         this.rows = val;
-        console.log(`每页 ${val} 条`);
+        this._getArticle();
       },
       handleCurrentChange(val) {
-        this.page = val
-        console.log(this.page)
-        console.log(this.rows)
-        this._getArticle(this.page, this.rows);
-        console.log(`当前页: ${val}`);
+        this.loading = true;
+        this.page = val;
+        this._getArticle();
       },
       _getArticle() {
         axios.get(`/blog/articles/get?all=1&page=${this.page}&rows=${this.rows}`).then((res) => {
@@ -348,7 +370,7 @@
           this.open(err + '服务器错误', '错误')
         })
       }
-    },
+    }
   }
 </script>
 
