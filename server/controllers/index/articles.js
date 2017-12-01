@@ -236,7 +236,6 @@ exports.getLeavs = (req, res, next) => {
       let getData = data[0].leavs;
       if (getData) {
         for (let i = 0; i < getData.length; i++) {
-          getData[i].time = util.getNowDate(getData[i].time);
           getData[i].email = getData[i].email.replace(/@([\da-z\.-]+)\./, '***');
         }
         response.status = ERR_OK;
@@ -253,7 +252,7 @@ exports.leavs = (req, res, next) => {
     name = req.body.name,
     email = req.body.email,
     content = req.body.center;
-  let time = (new Date()).getTime();
+  let time = new Date();
   let detail = {};
   let response = {
     msg: "参数不正确",

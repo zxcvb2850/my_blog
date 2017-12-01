@@ -29,7 +29,7 @@ const articlesSchema = new Schema({
     "name": String,
     "email": String,
     "content": String,
-    "time": String,
+    "time": Date,
     "avatar": String
   })],
   "label": Array

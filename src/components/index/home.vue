@@ -77,6 +77,7 @@
       detailClick(){
 
       },
+      //获取banner
       _getBanner(){
         axios.get("/blog/banner/get").then((res) => {
           res = res.data;
@@ -88,6 +89,7 @@
           console.log(err);
         })
       },
+      //获取文章
       _getArticles(page = 1){
         axios.get(`/blog/articles/get?page=${page}&rows=${this.pageSize}`).then((res) => {
           res = res.data;
@@ -103,6 +105,7 @@
           console.log(err);
         })
       },
+      //获取标签
       _getLabels(){
         axios.get("/blog/label").then((res) => {
           res = res.data;

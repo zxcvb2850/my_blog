@@ -177,6 +177,7 @@
         this._getArticle();
         this._getLeavs();
       },
+      //获取文章详情
       _getArticle(){
         this.articleId = this.$route.params.id;
         axios.get(`/blog/article/detail?id=${this.articleId}`)
@@ -194,11 +195,15 @@
             console.log("文章获取失败");
           })
       },
+      //获取留言
       _getLeavs(){
         axios.get(`/blog/article/leavs/get?id=${this.articleId}`)
           .then((res) => {
             res = res.data;
             if (res.status === 200) {
+              for (let i = 0; i < res.data.length; i++) {
+                res.data[i].time = moment(res.data[i].time).format("lll");
+              }
               this.leaving = res.data;
             } else {
               this.msg = res.msg;
@@ -359,7 +364,7 @@
               font-size: @smallFontSize;
               p {
                 display: inline-block;
-                color: @infoColor;
+                color: @dateBackground;
               }
               a {
                 margin-left: 20px;
