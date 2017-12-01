@@ -135,10 +135,17 @@ exports.detail = function (req, res, next) {
           logger.error(err);
           res.json(response);
         } else {
-          response.status = ERR_OK;
-          response.data = data[0];
-          logger.info(data[0].title + '阅读+1');
-          res.json(response);
+          if (data[0]) {
+            response.status = ERR_OK;
+            response.data = data[0];
+            logger.info(data[0].title + '阅读+1');
+            res.json(response);
+          } else {
+            response.status = ERROR;
+            response.msg = "查询文章失败";
+            logger.error(response);
+            return res.json(response);
+          }
         }
       });
     }
@@ -233,14 +240,21 @@ exports.getLeavs = (req, res, next) => {
       res.json(response);
       logger.error(err);
     } else {
-      let getData = data[0].leavs;
-      if (getData) {
-        for (let i = 0; i < getData.length; i++) {
-          getData[i].email = getData[i].email.replace(/@([\da-z\.-]+)\./, '***');
+      if (data[0]) {
+        let getData = data[0].leavs;
+        if (getData) {
+          for (let i = 0; i < getData.length; i++) {
+            getData[i].email = getData[i].email.replace(/@([\da-z\.-]+)\./, '***');
+          }
+          response.status = ERR_OK;
+          response.data = getData;
+          response.count = getData.length;
+          return res.json(response);
         }
-        response.status = ERR_OK;
-        response.data = getData;
-        response.count = getData.length;
+      } else {
+        response.status = ERROR;
+        response.msg = "查询文章失败";
+        logger.error(response);
         return res.json(response);
       }
     }

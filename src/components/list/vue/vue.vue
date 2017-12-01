@@ -9,6 +9,7 @@
 
 <script>
   import axios from "axios"
+  import moment from "moment"
   import articlesList from "base/articlesList/articlesList"
   import breadCrumb from 'base/breadcrumb/breadcrumb'
 
@@ -26,6 +27,9 @@
         axios.get("/blog/articles/get?type=3").then((res) => {
           res = res.data;
           if (res.status === 200) {
+            for (let i = 0; i < res.data.length; i++) {
+              res.data[i].time = moment(res.data[i].time).format('LLL');
+            }
             this.webArticles = res.data;
           }
         }).catch((err) => {

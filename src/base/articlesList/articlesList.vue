@@ -12,7 +12,7 @@
         <ol>
           <li class="label-item" v-for="label in article.label">
             <a href="javascript:;">
-              <el-tag type="danger">{{label}}</el-tag>
+              <el-tag type="danger" size="mini">{{label}}</el-tag>
             </a>
           </li>
         </ol>
@@ -100,9 +100,9 @@
     }
     .label {
       padding: 0 20px;
-      height: @textHeight;
       line-height: @textHeight;
       font-size: @smallFontSize;
+      overflow: hidden;
       .border-box;
       .read, .leaving {
         display: inline-block;
