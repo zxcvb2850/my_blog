@@ -294,6 +294,9 @@
           h1, h2, h3, h4, h5, h6 {
             line-height: 26px;
           }
+          a{
+            display: inline-block;
+          }
         }
         .label {
           padding: 0 20px;

@@ -73,9 +73,7 @@
     }
     .title {
       margin-bottom: 10px;
-      padding-left: 60px;
       display: block;
-      height: @titleHeight;
       line-height: @titleHeight;
       .transition(all, 0.35s);
       &:hover {
