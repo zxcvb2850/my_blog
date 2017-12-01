@@ -12,7 +12,7 @@
         <div class="status">
           <p class="status-no" v-if="nowArticle.status === 0"><i class="el-icon-remove-outline"></i>此文章已被隐藏 </p>
         </div>
-        <p class="content" v-html="nowArticle.content"></p>
+        <div class="content-text" v-html="nowArticle.content"></div>
         <div class="label">
           <ol>
             <li class="label-item" v-for="label in nowArticle.label">
@@ -240,7 +240,7 @@
   }
 </script>
 
-<style lang="less" scoped="">
+<style lang="less">
   @import "~common/style/index.less";
 
   .detail {
@@ -282,12 +282,15 @@
           }
         }
       }
-      .content {
+      .content-text {
         padding: 0 30px;
         line-height: @titleFontSize;
         font-size: @fontSize;
         text-align: left;
         overflow: hidden;
+        h1, h2, h3, h4, h5, h6 {
+          line-height: 26px;
+        }
       }
       .label {
         padding: 0 20px;
@@ -327,9 +330,13 @@
         .border-1px(@divisionLine);
       }
       .comment-content {
+        ul {
+          padding: 0;
+        }
         .item-msg {
           list-style-type: none;
           margin: 10px 0;
+          padding: 0;
           display: flex;
           .border-1px(@divisionLine);
           .avatar {

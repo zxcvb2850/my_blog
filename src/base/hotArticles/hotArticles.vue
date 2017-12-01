@@ -75,7 +75,7 @@
       line-height: @textHeight;
       overflow: hidden;
       time {
-        flex: 30px 0 0;
+        flex: 32px 0 0;
         margin-right: 6px;
         padding: 0 8px;
         font-size: @smallerFontSize;
