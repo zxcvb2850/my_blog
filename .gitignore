@@ -1,7 +1,7 @@
 .DS_Store
 node_modules/
 dist/
-server/logs/log
+server/logs/log/
 server/public/image/icon
 server/public/images/
 npm-debug.log*

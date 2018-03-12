@@ -2,20 +2,71 @@
 
 > wangxiaobai blog
 
+# 使用的工具
+  1. 前端使用的是vue-cli
+  2. 服务器采用的是node
+  3. 数据库采用的是mongodb
+
+### [线上地址](http://120.25.63.170/)
+
+## mongodb对应的结构
+> banner
+```banner对应的模型
+/************** 定义模式bannerSchema **************/
+const bannerSchema = new Schema({
+  "src": String,
+  "title": String,
+  "desc": String,
+  "time": Date
+});
+```
+>文章
+```文章对应的模型
+/************** 定义模式articlesSchema **************/
+const articlesSchema = new Schema({
+  "type": Number,
+  "parent": Number,
+  "status": Number,
+  "title": String,
+  "img": String,
+  "from": String,
+  "time": Date,
+  "timeMod": Date,
+  "desc": String,
+  "content": String,
+  "read": Number,
+  "leavs": [new Schema({
+    "name": String,
+    "email": String,
+    "content": String,
+    "time": Date,
+    "avatar": String
+  })],
+  "label": Array
+});
+```
+> 后台管理用户
+```后台user对应的模型
+/************** 定义模式userSchema **************/
+const userSchema = new Schema({
+  "username": String,
+  "password": String,
+  "time": String
+});
+```
+
 ## Build Setup
 
 ``` bash
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
-npm run dev
-
 # build for production with minification
 npm run build
+
+# build for production with minification
+npm run start-server
 
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

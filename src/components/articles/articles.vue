@@ -33,7 +33,7 @@
             <el-input type="email" v-model="ruleForm2.email" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="*留言内容" prop="center">
-            <el-input v-model="ruleForm2.center"></el-input>
+            <el-input v-model="ruleForm2.center" @keyup.enter.native="submitForm('ruleForm2')"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
@@ -77,7 +77,7 @@
   import hotArticles from 'base/hotArticles/hotArticles'
 
   export default {
-    data(){
+    data() {
       var checkUser = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('用户名不能为空'));
@@ -131,7 +131,7 @@
         }
       }
     },
-    created(){
+    created() {
       setTimeout(() => {
         this._getHotArticle();
       }, 200)
@@ -173,12 +173,12 @@
           confirmButtonText: '确定'
         });
       },
-      detailClick(){
+      detailClick() {
         this._getArticle();
         this._getLeavs();
       },
       //获取文章详情
-      _getArticle(){
+      _getArticle() {
         this.articleId = this.$route.params.id;
         axios.get(`/blog/article/detail?id=${this.articleId}`)
           .then((res) => {
@@ -196,7 +196,7 @@
           })
       },
       //获取留言
-      _getLeavs(){
+      _getLeavs() {
         axios.get(`/blog/article/leavs/get?id=${this.articleId}`)
           .then((res) => {
             res = res.data;
@@ -217,7 +217,7 @@
             console.log("获取评论失败")
           })
       },
-      _getHotArticle(){
+      _getHotArticle() {
         axios.get('/blog/articles/hot/get')
           .then((res) => {
             res = res.data;
@@ -232,7 +232,7 @@
       breadCrumb,
       hotArticles
     },
-    activated(){
+    activated() {
       this._getArticle();
       this._getLeavs();
       this.resetForm('ruleForm2');
@@ -294,7 +294,7 @@
           h1, h2, h3, h4, h5, h6 {
             line-height: 26px;
           }
-          a{
+          a {
             display: inline-block;
           }
         }
