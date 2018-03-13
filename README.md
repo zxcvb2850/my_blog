@@ -64,9 +64,10 @@ npm install
 # build for production with minification
 npm run build
 
-# build for production with minification
+# server monitor 8088
 npm run start-server
 
-# build for production and view the bundle analyzer report
-npm run build --report
+# production access address
+localhost:8088            this is index page
+localhost:8088/admin      this is admin page, user and password is you mongodb users
 ```
