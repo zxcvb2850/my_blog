@@ -1,0 +1,86 @@
+/*基本尺寸*/
+@pageWidth: 1200px;
+
+@topHeight: 60px;
+@textHeight: 30px;
+@titleHeight: 40px;
+@avatarWidth: 80px;
+
+/*字体大小*/
+@smallerFontSize: 12px;
+@smallFontSize: 14px;
+@maxFontSize: 20px;
+@fontSize: 16px;
+@titleFontSize: 18px;
+
+/*字体颜色*/
+@snowColor: #FFFAFA;
+@hotColor: #FD6161;
+@infoColor: #999;
+
+/*基本颜色*/
+@backgroundTop: rgba(0, 0, 0, .5);
+@borderColor: rgba(0, 0, 0, .1);
+@labelBackground: #FF4500;
+@labelHoverBackground: #FF5E5C;
+@footerBackground: #2E2730;
+@divisionLine: rgba(0, 0, 0, .1);
+@dateBackground: #4674A2;
+@bgBackground: #f4f6ea;
+@adminMainBackground: #409EFF;
+
+/*共同样式*/
+.clear {
+  zoom: 1;
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+}
+
+/*底部1像素的边框*/
+.border-1px(@color) {
+  position: relative;
+  &:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    content: '';
+    width: 100%;
+    border-top: 1px solid @color;
+  }
+}
+
+.border-radius(@val) {
+  -webkit-border-radius: @val;
+  -moz-border-radius: @val;
+  border-radius: @val;
+}
+
+/*padding内部*/
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*css3动画时间*/
+.transition(@type, @timer) {
+  -webkit-transition: @type @timer;
+  -moz-transition: @type @timer;
+  -ms-transition: @type @timer;
+  -o-transition: @type @timer;
+  transition: @type @timer;
+}
+
+/*超出隐藏*/
+.no-wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
