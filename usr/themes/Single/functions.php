@@ -76,3 +76,10 @@ function themeConfig($form) {
         array('show_category', 'show_comments'), _t('文章页属性显示'));
     $form->addInput($post_meta->multiMode());
 }
+
+/*字数统计*/
+function  art_count ($cid){
+    $db=Typecho_Db::get ();
+    $rs=$db->fetchRow ($db->select ('table.contents.text')->from ('table.contents')->where ('table.contents.cid=?',$cid)->order ('table.contents.cid',Typecho_Db::SORT_ASC)->limit (1));
+    echo mb_strlen($rs['text'], 'UTF-8');
+}

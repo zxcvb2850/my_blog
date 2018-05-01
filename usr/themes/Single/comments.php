@@ -42,7 +42,7 @@
             <fieldset>
                 <p><?php _e('已登录: '); ?><a href="<?php $this->options->profileUrl(); ?>"><?php $this->user->screenName(); ?></a>. <a href="<?php $this->options->logoutUrl(); ?>" title="登出"><?php _e('登出'); ?> &raquo;</a></p>
                 <textarea rows="2" name="text" id="textarea" placeholder="快来评论吧 (*≧ω≦)ﾉ" required=""><?php $this->remember('text'); ?></textarea>
-                <button type="submit" class="btn small">写好了~</button>
+                <button type="submit" class="btn small">评论</button>
             </fieldset>
 <?php else: ?>
             <div class="row">
@@ -53,7 +53,7 @@
                 </fieldset>
                 <fieldset class="col-m-6">
                     <textarea rows="3" name="text" id="textarea" placeholder="快来评论吧 (*≧ω≦)ﾉ" required=""><?php $this->remember('text'); ?></textarea>
-                    <button type="submit" class="btn small">写好了~</button>
+                    <button type="submit" class="btn small">评论</button>
                 </fieldset>
             </div>
 <?php endif; ?>
