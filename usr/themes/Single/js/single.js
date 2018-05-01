@@ -143,6 +143,7 @@ window.addEventListener("scroll", function () {
 ks.image(".post-content img, .page-content img");
 
 // 请保留版权说明
+/*
 if (window.console && window.console.log) {
     console.log("%c Single %c https://paugram.com ","color: #fff; margin: 1em 0; padding: 5px 0; background: #ffa628;","margin: 1em 0; padding: 5px 0; background: #efefef;");
-}
+}*/

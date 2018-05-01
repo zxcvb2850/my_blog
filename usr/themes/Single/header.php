@@ -10,14 +10,14 @@
             'author'    =>  _t('%s 发布的文章')
         ), '', ' - '); ?><?php $this->options->title(); ?></title>
 <?php if ($this->options->favicon_small): ?>
-    <link rel="icon" href="<?php $this->options->favicon_small() ?>" sizes="32x32"/>
+<!--    <link rel="icon" href="--><?php //$this->options->favicon_small() ?><!--" sizes="32x32"/>-->
 <?php else: ?>
-    <link rel="icon" href="<?php $this->options->themeUrl('img/icon/32.png'); ?>" sizes="32x32"/>
+<!--    <link rel="icon" href="--><?php //$this->options->themeUrl('img/icon/32.png'); ?><!--" sizes="32x32"/>-->
 <?php endif; ?>
 <?php if ($this->options->favicon_large): ?>
-    <link rel="icon" href="<?php $this->options->favicon_small() ?>" sizes="192x192"/>
+<!--    <link rel="icon" href="--><?php //$this->options->favicon_small() ?><!--" sizes="192x192"/>-->
 <?php else: ?>
-    <link rel="icon" href="<?php $this->options->themeUrl('img/icon/192.png'); ?>" sizes="192x192"/>
+<!--    <link rel="icon" href="--><?php //$this->options->themeUrl('img/icon/192.png'); ?><!--" sizes="192x192"/>-->
 <?php endif; ?>
     <link href="<?php $this->options->themeUrl('css/kico.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php $this->options->themeUrl('css/single.css'); ?>" rel="stylesheet" type="text/css"/>

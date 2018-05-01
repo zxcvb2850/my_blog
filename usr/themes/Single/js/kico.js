@@ -154,7 +154,7 @@ function kico_style () {
     };
 
     // Show Version
-    console.log("%c Kico Style %c https://www.binkic.com ","color: #fff; margin: 1em 0; padding: 5px 0; background: #3498db;","margin: 1em 0; padding: 5px 0; background: #efefef;");
+    //console.log("%c Kico Style %c https://www.binkic.com ","color: #fff; margin: 1em 0; padding: 5px 0; background: #3498db;","margin: 1em 0; padding: 5px 0; background: #efefef;");
 };
 
 var ks = new kico_style();
