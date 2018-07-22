@@ -1,5 +1,5 @@
 const config = {
-  host: '120.25.63.170',
+  host: '139.199.172.195',
   port: 27017,
   db: 'my_blog'
 }
