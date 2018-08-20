@@ -7,7 +7,7 @@
   2. 服务器采用的是node
   3. 数据库采用的是mongodb
 
-### [线上地址](http://120.25.63.170/)
+### [线上地址](http://www.qhyking.com:9000)
 
 ## mongodb对应的结构
 > banner
