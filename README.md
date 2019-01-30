@@ -1,10 +1,10 @@
-# my_blog
+## 博客简易到不行了，哈哈哈，不过当时为了学习，就这么干起来了，对于学习起步还是很有帮助的，以后有时间一定好好改改
 
-> wangxiaobai blog
+> [后台](http://www.qhyking.com:9000/admin) 帐号：admin  密码：123456
 
 # 使用的工具
   1. 前端使用的是vue-cli
-  2. 服务器采用的是node
+  2. 服务器采用node的express
   3. 数据库采用的是mongodb
 
 ### [线上地址](http://www.qhyking.com:9000)
@@ -71,3 +71,4 @@ npm run start-server
 localhost:8088            this is index page
 localhost:8088/admin      this is admin page, user and password is you mongodb users
 ```
+如果你想在本地跑的话，由于没有开发注册帐号的入口，所以需要自己手动mongodb中添加一个帐号
