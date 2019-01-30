@@ -19,7 +19,7 @@ exports.login = (req, res, next) => {
     logger.error("参数错误");
     return res.json(response);
   }
-  models.User.find(username, {"password": 1}, (err, data) => {
+  models.User.find({username}, {"password": 1}, (err, data) => {
     if (err) {
       response.status = ERROR;
       response.msg = "用户不存在";

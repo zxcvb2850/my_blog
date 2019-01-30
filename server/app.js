@@ -9,16 +9,18 @@ const bodyParser = require('body-parser');
 const log4js = require('./logs/log');
 const config = require('./config/config')
 
-mongoose.connect(`mongodb://${config.host}:${config.port}/${config.db}`);
+mongoose.connect(`mongodb://${config.host}:${config.port}/${config.db}`, {
+  useMongoClient: true
+});
 
 mongoose.connection.on("connected", () => {
   console.log("MongoDB connected success.")
 });
 mongoose.connection.on("error", () => {
-  console.log("MongoDB connected fail.")
+  console.error("MongoDB connected fail.")
 });
 mongoose.connection.on("disconnected", () => {
-  console.log("MongoDB connected disconnected.")
+  console.error("MongoDB connected disconnected.")
 });
 
 const admin = require('./routes/admin/index');
