@@ -26,17 +26,19 @@ exports.login = (req, res, next) => {
       logger.error(response);
       return res.json(response);
     } else {
-      let pwd = data[0].password;
-      if (password !== pwd) {
+      if (data.length) {
+        let pwd = data[0].password;
+        if (password === pwd) {
+          response.status = ERR_OK;
+          response.msg = "登陆成功,2s自动跳转";
+          logger.error(response);
+          res.json(response);
+        }
+      } else {
         response.status = ERROR;
         response.msg = "账号或密码错误";
         logger.error(response);
         return res.json(response);
-      } else {
-        response.status = ERR_OK;
-        response.msg = "登陆成功,2s自动跳转";
-        logger.error(response);
-        res.json(response);
       }
     }
   })
